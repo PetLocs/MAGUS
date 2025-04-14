@@ -3,324 +3,324 @@
     "id": "aszisz_énekmondó",
     "name": "Aszisz Énekmondó",
     "type": "SUBCLASS",
-    "parentClass": "Bárd"
+    "parentId": "bárd"
   },
   {
     "id": "lombhullás_árvái",
     "name": "Lombhullás Árvái",
     "type": "SUBCLASS",
-    "parentClass": "Bárd"
+    "parentId": "bárd"
   },
   {
     "id": "sötét_bárd",
     "name": "Sötét Bárd",
     "type": "SUBCLASS",
-    "parentClass": "Bárd"
+    "parentId": "bárd"
   },
   {
     "id": "vándor_dalnok",
     "name": "Vándor Dalnok",
     "type": "SUBCLASS",
-    "parentClass": "Bárd"
+    "parentId": "bárd"
   },
   {
     "id": "alidaxi_boszorkányrend",
     "name": "Alidaxi Boszorkányrend",
     "type": "SUBCLASS",
-    "parentClass": "Boszorkány"
+    "parentId": "boszorkány"
   },
   {
     "id": "ezer_fátyol_nővérei",
     "name": "Ezer Fátyol Nővérei",
     "type": "SUBCLASS",
-    "parentClass": "Boszorkány"
+    "parentId": "boszorkány"
   },
   {
     "id": "liviniai_gyülekezet",
     "name": "Liviniai Gyülekezet",
     "type": "SUBCLASS",
-    "parentClass": "Boszorkány"
+    "parentId": "boszorkány"
   },
   {
     "id": "maida_saluquas",
     "name": "Maida Saluquas",
     "type": "SUBCLASS",
-    "parentClass": "Boszorkány"
+    "parentId": "boszorkány"
   },
   {
     "id": "stella_prosylens",
     "name": "Stella Prosylens",
     "type": "SUBCLASS",
-    "parentClass": "Boszorkány"
+    "parentId": "boszorkány"
   },
   {
     "id": "ascens_morga",
     "name": "Ascens Morga",
     "type": "SUBCLASS",
-    "parentClass": "Boszorkánymester"
+    "parentId": "boszorkánymester"
   },
   {
     "id": "aszisz_vérkelyhesek",
     "name": "Aszisz Vérkelyhesek",
     "type": "SUBCLASS",
-    "parentClass": "Boszorkánymester"
+    "parentId": "boszorkánymester"
   },
   {
     "id": "hergoli_villámmesterek",
     "name": "Hergoli Villámmesterek",
     "type": "SUBCLASS",
-    "parentClass": "Boszorkánymester"
+    "parentId": "boszorkánymester"
   },
   {
     "id": "anat-akhan",
     "name": "Anat-Akhan",
     "type": "SUBCLASS",
-    "parentClass": "Fejvadász"
+    "parentId": "fejvadász"
   },
   {
     "id": "embervadászok",
     "name": "Embervadászok",
     "type": "SUBCLASS",
-    "parentClass": "Fejvadász"
+    "parentId": "fejvadász"
   },
   {
     "id": "ikrek",
     "name": "Ikrek",
     "type": "SUBCLASS",
-    "parentClass": "Fejvadász"
+    "parentId": "fejvadász"
   },
   {
     "id": "avad-ka-kinito_(föld)",
     "name": "Avad-ka-kinito (Föld)",
     "type": "SUBCLASS",
-    "parentClass": "Harcművész"
+    "parentId": "harcművész"
   },
   {
     "id": "dart-nid-kinito_(víz)",
     "name": "Dart-nid-kinito (Víz)",
     "type": "SUBCLASS",
-    "parentClass": "Harcművész"
+    "parentId": "harcművész"
   },
   {
     "id": "nisen-nid-to_(levegő)",
     "name": "Nisen-nid-to (Levegő)",
     "type": "SUBCLASS",
-    "parentClass": "Harcművész"
+    "parentId": "harcművész"
   },
   {
     "id": "shien-ka-to_(tűz)",
     "name": "Shien-ka-to (Tűz)",
     "type": "SUBCLASS",
-    "parentClass": "Harcművész"
+    "parentId": "harcművész"
   },
   {
     "id": "kardművész_(udvari_irányzat)",
     "name": "Kardművész (Udvari irányzat)",
     "type": "SUBCLASS",
-    "parentClass": "Harcművész"
+    "parentId": "harcművész"
   },
   {
     "id": "kardművész_(a_harc_útja)",
     "name": "Kardművész (A harc útja)",
     "type": "SUBCLASS",
-    "parentClass": "Harcművész"
+    "parentId": "harcművész"
   },
   {
     "id": "amazon",
     "name": "Amazon",
     "type": "SUBCLASS",
-    "parentClass": "Harcos"
+    "parentId": "harcos"
   },
   {
     "id": "barbár",
     "name": "Barbár",
     "type": "SUBCLASS",
-    "parentClass": "Harcos"
+    "parentId": "harcos"
   },
   {
     "id": "erigowi_számszeríjász",
     "name": "Erigowi számszeríjász",
     "type": "SUBCLASS",
-    "parentClass": "Harcos"
+    "parentId": "harcos"
   },
   {
     "id": "predoci_vértes",
     "name": "Predoci vértes",
     "type": "SUBCLASS",
-    "parentClass": "Harcos"
+    "parentId": "harcos"
   },
   {
     "id": "siedon_(gorviki_szabad_harcos)",
     "name": "Siedon (Gorviki szabad harcos)",
     "type": "SUBCLASS",
-    "parentClass": "Harcos"
+    "parentId": "harcos"
   },
   {
     "id": "az_isten_kardja_lovagrend",
     "name": "Az Isten Kardja Lovagrend",
     "type": "SUBCLASS",
-    "parentClass": "Lovag"
+    "parentId": "lovag"
   },
   {
     "id": "erigowi_krad_lovagrend",
     "name": "Erigowi Krad Lovagrend",
     "type": "SUBCLASS",
-    "parentClass": "Lovag"
+    "parentId": "lovag"
   },
   {
     "id": "feketerendek_(shadon)",
     "name": "FeketeRendek (Shadon)",
     "type": "SUBCLASS",
-    "parentClass": "Lovag"
+    "parentId": "lovag"
   },
   {
     "id": "marico_con_rabora_lovagrend_(gorvik)",
     "name": "Marico con Rabora Lovagrend (Gorvik)",
     "type": "SUBCLASS",
-    "parentClass": "Lovag"
+    "parentId": "lovag"
   },
   {
     "id": "arel-pap",
     "name": "Arel-pap",
     "type": "SUBCLASS",
-    "parentClass": "Pap"
+    "parentId": "pap"
   },
   {
     "id": "domvik-pap",
     "name": "Domvik-pap",
     "type": "SUBCLASS",
-    "parentClass": "Pap"
+    "parentId": "pap"
   },
   {
     "id": "kyel-pap",
     "name": "Kyel-pap",
     "type": "SUBCLASS",
-    "parentClass": "Pap"
+    "parentId": "pap"
   },
   {
     "id": "ranagol-pap",
     "name": "Ranagol-pap",
     "type": "SUBCLASS",
-    "parentClass": "Pap"
+    "parentId": "pap"
   },
   {
     "id": "sogron-pap",
     "name": "Sogron-pap",
     "type": "SUBCLASS",
-    "parentClass": "Pap"
+    "parentId": "pap"
   },
   {
     "id": "tharr-pap",
     "name": "Tharr-pap",
     "type": "SUBCLASS",
-    "parentClass": "Pap"
+    "parentId": "pap"
   },
   {
     "id": "aranykör_lovag_(krad-paplovag)",
     "name": "Aranykör lovag (Krad-paplovag)",
     "type": "SUBCLASS",
-    "parentClass": "Paplovag"
+    "parentId": "paplovag"
   },
   {
     "id": "bosszúangyal_(uwel-paplovag)",
     "name": "Bosszúangyal (Uwel-paplovag)",
     "type": "SUBCLASS",
-    "parentClass": "Paplovag"
+    "parentId": "paplovag"
   },
   {
     "id": "darton-paplovag",
     "name": "Darton-paplovag",
     "type": "SUBCLASS",
-    "parentClass": "Paplovag"
+    "parentId": "paplovag"
   },
   {
     "id": "domvik-paplovag",
     "name": "Domvik-paplovag",
     "type": "SUBCLASS",
-    "parentClass": "Paplovag"
+    "parentId": "paplovag"
   },
   {
     "id": "dreina-paplovag",
     "name": "Dreina-paplovag",
     "type": "SUBCLASS",
-    "parentClass": "Paplovag"
+    "parentId": "paplovag"
   },
   {
     "id": "főnix_(sogron-paplovag)",
     "name": "Főnix (Sogron-paplovag)",
     "type": "SUBCLASS",
-    "parentClass": "Paplovag"
+    "parentId": "paplovag"
   },
   {
     "id": "ranagol-paplovag",
     "name": "Ranagol-paplovag",
     "type": "SUBCLASS",
-    "parentClass": "Paplovag"
+    "parentId": "paplovag"
   },
   {
     "id": "kobrák",
     "name": "Kobrák",
     "type": "SUBCLASS",
-    "parentClass": "Tolvaj"
+    "parentId": "tolvaj"
   },
   {
     "id": "szürkecsuklyások",
     "name": "Szürkecsuklyások",
     "type": "SUBCLASS",
-    "parentClass": "Tolvaj"
+    "parentId": "tolvaj"
   },
   {
     "id": "talavra_csodaművesei",
     "name": "Talavra Csodaművesei",
     "type": "SUBCLASS",
-    "parentClass": "Tolvaj"
+    "parentId": "tolvaj"
   },
   {
     "id": "az_aschaon_tűzmesterei",
     "name": "Az Aschaon Tűzmesterei",
     "type": "SUBCLASS",
-    "parentClass": "Tűzvarázsló"
+    "parentId": "tűzvarázsló"
   },
   {
     "id": "tűz_harcosai_rend",
     "name": "Tűz Harcosai Rend",
     "type": "SUBCLASS",
-    "parentClass": "Tűzvarázsló"
+    "parentId": "tűzvarázsló"
   },
   {
     "id": "tűz_hordozói_rend",
     "name": "Tűz Hordozói Rend",
     "type": "SUBCLASS",
-    "parentClass": "Tűzvarázsló"
+    "parentId": "tűzvarázsló"
   },
   {
     "id": "tűz_táplálói_rend",
     "name": "Tűz Táplálói Rend",
     "type": "SUBCLASS",
-    "parentClass": "Tűzvarázsló"
+    "parentId": "tűzvarázsló"
   },
   {
     "id": "renegátok",
     "name": "Renegátok",
     "type": "SUBCLASS",
-    "parentClass": "Tűzvarázsló"
+    "parentId": "tűzvarázsló"
   },
   {
     "id": "dorani_varázsló",
     "name": "Dorani varázsló",
     "type": "SUBCLASS",
-    "parentClass": "Varázsló"
+    "parentId": "varázsló"
   },
   {
     "id": "lar-dori_varázsló",
     "name": "Lar-Dori varázsló",
     "type": "SUBCLASS",
-    "parentClass": "Varázsló"
+    "parentId": "varázsló"
   },
   {
     "id": "pyarroni_varázslórend",
     "name": "Pyarroni Varázslórend",
     "type": "SUBCLASS",
-    "parentClass": "Varázsló"
+    "parentId": "varázsló"
   }
 ]

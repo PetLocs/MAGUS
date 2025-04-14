@@ -5,11 +5,12 @@ package hu.petloc.data;
  * A játékhoz kapcsolódó különböző statikus adatok típusait tartalmazza.
  */
 public enum DataType {
-    RACE("race.json", "Fajok"),
+    RACE("race", "Fajok"),
     CLASS("class", "Kasztok"),
     SUBCLASS("subclass", "Alkasztok"),
-    ALIGNMENT("alignment.json", "Jellemek"),
-    RELIGION("religion", "Vallások");
+    ALIGNMENT("alignment", "Jellemek"),
+    RELIGION("religion", "Vallások"),
+    CLASS_RACE("class_race", "Faj-Kaszt kapcsolatok");
 
     private final String key;
     private final String displayName;

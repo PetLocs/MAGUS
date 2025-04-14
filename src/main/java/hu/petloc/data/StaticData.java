@@ -12,6 +12,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -125,6 +126,100 @@ public class StaticData {
     }
 
     /**
+     * Visszaadja az adott fajhoz elérhető kasztok listáját.
+     *
+     * @param raceName A faj neve, amihez a kasztokat keressük
+     * @return A fajhoz elérhető kasztok listája, vagy az összes kaszt, ha a fajhoz nincs specifikus korlátozás
+     */
+    public List<String> getClassesForRace(String raceName) {
+        if (raceName == null || raceName.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // Hibakeresési célból kiírjuk a keresett faj nevét és a CLASS_RACE adatokat
+        System.out.println("Keresett faj: " + raceName);
+
+        for (StaticDataItem item : getItems(DataType.CLASS_RACE)) {
+            System.out.println("CLASS_RACE item: " + item.getName() + " (id: " + item.getId() + ")");
+        }
+
+        // A CLASS_RACE adatokból kikeressük a megfelelő fajhoz tartozó elemet
+        // Az összehasonlításhoz a faj nevét használjuk
+        Optional<StaticDataItem> raceClassItem = getItems(DataType.CLASS_RACE).stream()
+                .filter(item -> raceName.equalsIgnoreCase(item.getName()))
+                .findFirst();
+
+        // Ha találtunk megfelelő elemet, akkor annak az availableClasses mezőjét használjuk
+        if (raceClassItem.isPresent()) {
+            System.out.println("Találat: " + raceClassItem.get().getName());
+
+            // A JSON-ból származó adatokban az availableClasses mező tartalmazza a fajhoz elérhető kasztokat
+            List<String> availableClasses = raceClassItem.get().getAvailableClasses();
+            if (availableClasses != null && !availableClasses.isEmpty()) {
+                System.out.println("Fajspecifikus kasztok: " + availableClasses);
+                return availableClasses;
+            }
+
+            // Ha nincs availableClasses, próbáljuk az attributes Map-ből (a kompatibilitás miatt)
+            Map<String, Object> attributes = raceClassItem.get().getAttributes();
+            if (attributes != null) {
+                System.out.println("Attribútumok: " + attributes.keySet());
+
+                if (attributes.containsKey("availableClasses")) {
+                    Object availableClassesObj = attributes.get("availableClasses");
+                    System.out.println("availableClasses típusa: " + availableClassesObj.getClass().getName());
+
+                    if (availableClassesObj instanceof List) {
+                        // Castoljuk a listát String listává
+                        @SuppressWarnings("unchecked")
+                        List<String> classes = (List<String>) availableClassesObj;
+                        System.out.println("Fajspecifikus kasztok (attributes-ból): " + classes);
+                        return classes;
+                    }
+                }
+            }
+        } else {
+            // Ha a faj neve alapján nem találtuk meg, próbáljuk meg az id mező alapján (pl. "elf_kasztok"-hoz tartozik az "Elf" faj)
+            String raceNameLower = raceName.toLowerCase().replace(' ', '_');
+            String raceClassId = raceNameLower + "_kasztok";
+
+            System.out.println("Keresés id alapján: " + raceClassId);
+
+            raceClassItem = getItems(DataType.CLASS_RACE).stream()
+                    .filter(item -> raceClassId.equals(item.getId()))
+                    .findFirst();
+
+            if (raceClassItem.isPresent()) {
+                System.out.println("Találat id alapján: " + raceClassItem.get().getName());
+
+                // Először próbáljuk közvetlenül az availableClasses mezőből
+                List<String> availableClasses = raceClassItem.get().getAvailableClasses();
+                if (availableClasses != null && !availableClasses.isEmpty()) {
+                    System.out.println("Fajspecifikus kasztok (id alapján): " + availableClasses);
+                    return availableClasses;
+                }
+
+                // Ha nincs availableClasses, próbáljuk az attributes Map-ből (a kompatibilitás miatt)
+                Map<String, Object> attributes = raceClassItem.get().getAttributes();
+                if (attributes != null && attributes.containsKey("availableClasses")) {
+                    Object availableClassesObj = attributes.get("availableClasses");
+                    if (availableClassesObj instanceof List) {
+                        // Castoljuk a listát String listává
+                        @SuppressWarnings("unchecked")
+                        List<String> classes = (List<String>) availableClassesObj;
+                        System.out.println("Fajspecifikus kasztok (id alapján, attributes-ból): " + classes);
+                        return classes;
+                    }
+                }
+            }
+        }
+
+        // Ha nem találtunk faj-specifikus korlátozást, akkor az összes kasztot visszaadjuk
+        System.out.println("Nem találtunk specifikus kasztokat, összes kaszt visszaadása");
+        return getCharacterClasses();
+    }
+
+    /**
      * Adott típusú elemek lekérése a cache-ből.
      * Ha még nincsenek betöltve, akkor betölti őket.
      *
@@ -144,7 +239,12 @@ public class StaticData {
      * @param type Az adattípus
      */
     private void loadData(DataType type) {
-        String fileName = "data/" + type.getKey() + ".json";
+        String typeKey = type.getKey();
+        String fileName = "data/" + typeKey;
+        // Ellenőrizzük, hogy a fájlnév már tartalmazza-e a .json kiterjesztést
+        if (!fileName.endsWith(".json")) {
+            fileName = fileName + ".json";
+        }
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
 
         if (inputStream == null) {

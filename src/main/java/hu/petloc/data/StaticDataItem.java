@@ -21,6 +21,7 @@ public class StaticDataItem {
     private String parentId;
     private Map<String, Object> attributes;
     private List<StaticDataItem> children;
+    private List<String> availableClasses;  // A class_race.json fájlban használt "availableClasses" mezőhöz
 
     /**
      * Alapértelmezett konstruktor
@@ -185,6 +186,14 @@ public class StaticDataItem {
 
     public void setChildren(List<StaticDataItem> children) {
         this.children = children;
+    }
+
+    public List<String> getAvailableClasses() {
+        return availableClasses;
+    }
+
+    public void setAvailableClasses(List<String> availableClasses) {
+        this.availableClasses = availableClasses;
     }
 
     /**

@@ -1,7 +1,6 @@
 package hu.petloc.view;
 
 import hu.petloc.controller.CharacterCreationPanelController;
-import hu.petloc.data.StaticData;
 import hu.petloc.model.GameCharacter;
 import hu.petloc.ui.GroupedComboBox;
 import hu.petloc.ui.NumberAdjuster;
@@ -21,7 +20,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,6 +27,11 @@ import java.util.List;
  * Ez az osztály felelős a karakter létrehozási folyamat megjelenítéséért.
  */
 public class CharacterCreationPanelView {
+
+    /**
+     * Speciális érték a ComboBox-ok számára, ami a promptText-et fogja megjeleníteni
+     */
+    private static final String PROMPT_VALUE = "...";
 
     private VBox root;
     private final CharacterCreationPanelController controller;
@@ -98,18 +101,21 @@ public class CharacterCreationPanelView {
         // Faj
         Label raceLabel = new Label("Faj:");
         raceComboBox = new ComboBox<>();
+        raceComboBox.setPromptText("...");
         formGrid.add(raceLabel, 0, row);
         formGrid.add(raceComboBox, 1, row++);
 
         // Kaszt
         Label classLabel = new Label("Kaszt:");
         classComboBox = new ComboBox<>();
+        classComboBox.setPromptText("...");
         formGrid.add(classLabel, 0, row);
         formGrid.add(classComboBox, 1, row++);
 
         // Alkaszt
         Label subclassLabel = new Label("Alkaszt:");
         subclassComboBox = new ComboBox<>();
+        subclassComboBox.setPromptText("...");
         formGrid.add(subclassLabel, 0, row);
         formGrid.add(subclassComboBox, 1, row++);
 
@@ -123,14 +129,16 @@ public class CharacterCreationPanelView {
         // Jellem
         Label alignmentLabel = new Label("Jellem:");
         alignmentComboBox = new ComboBox<>();
+        alignmentComboBox.setPromptText("...");
         formGrid.add(alignmentLabel, 0, row);
         formGrid.add(alignmentComboBox, 1, row++);
 
-        // Vallás - A StaticData nem ad lehetőséget csoportosított listára, ezért mintaadatot használunk
+        // Vallás - Csoportosított vallások a JSON adatok alapján
         Label religionLabel = new Label("Vallás:");
-        // Példa vallások csoportosítva
-        List<String> religionSample = createSampleReligions();
-        religionComboBox = new GroupedComboBox(religionSample);
+        // Vallások csoportosítva
+        List<String> groupedReligions = createGroupedReligions();
+        religionComboBox = new GroupedComboBox(groupedReligions);
+        religionComboBox.setPromptText("...");
         formGrid.add(religionLabel, 0, row);
         formGrid.add(religionComboBox, 1, row++);
 
@@ -175,11 +183,24 @@ public class CharacterCreationPanelView {
      * Eseménykezelők beállítása.
      */
     private void setupEventHandlers() {
+        // Biztosítsuk induláskor is a promptText megjelenítését
+        refreshPromptText(raceComboBox);
+        refreshPromptText(classComboBox);
+        refreshPromptText(subclassComboBox);
+
         // Faj változása
         raceComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+            // Ha van új érték, beállítjuk a karaktert és frissítjük a kaszt opciókat
             if (newVal != null) {
                 controller.getTempCharacter().setRace(newVal);
                 updateClassOptions();
+                // Megjegyzés: Az updateClassOptions() most már meghívja az updateSubclassOptions()-t
+                // így nem kell itt külön meghívni
+            }
+            // Ha nullra váltunk (pl. kiürítjük a kiválasztást)
+            else {
+                controller.getTempCharacter().setRace(null);
+                updateClassOptions(); // Ez letiltja a kaszt és alkaszt ComboBox-okat
             }
         });
 
@@ -187,6 +208,7 @@ public class CharacterCreationPanelView {
         classComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 controller.getTempCharacter().setCharacterClass(newVal);
+                // Az alkaszt opciók frissítése a kiválasztott kaszt alapján
                 updateSubclassOptions();
             }
         });
@@ -194,7 +216,12 @@ public class CharacterCreationPanelView {
         // Alkaszt változása
         subclassComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
-                controller.getTempCharacter().setSubclass(newVal);
+                // Ha "-" van kiválasztva, akkor nullt állítunk be
+                if ("-".equals(newVal)) {
+                    controller.getTempCharacter().setSubclass(null);
+                } else {
+                    controller.getTempCharacter().setSubclass(newVal);
+                }
             }
         });
 
@@ -207,8 +234,13 @@ public class CharacterCreationPanelView {
 
         // Vallás változása
         religionComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null && !newVal.startsWith("--")) {
-                controller.getTempCharacter().setReligion(newVal);
+            if (newVal != null) {
+                // Ha csoportcím vagy "-" van kiválasztva, akkor nullt állítunk be
+                if (newVal.startsWith("--") || "-".equals(newVal)) {
+                    controller.getTempCharacter().setReligion(null);
+                } else {
+                    controller.getTempCharacter().setReligion(newVal);
+                }
             }
         });
 
@@ -217,6 +249,8 @@ public class CharacterCreationPanelView {
             controller.getTempCharacter().setLevel(newVal.intValue());
         });
     }
+
+
 
     /**
      * Adatkötések beállítása.
@@ -252,84 +286,184 @@ public class CharacterCreationPanelView {
     }
 
     /**
-     * ComboBox-ok feltöltése adatokkal.
+     * ComboBox-ok feltöltése adatokkal és kezdeti állapot beállítása.
      */
     private void loadComboBoxData() {
-        // Faj ComboBox feltöltése
-        List<String> races = StaticData.getInstance().getRaces();
+        // Faj ComboBox feltöltése - a prompt értéket is hozzáadjuk a listához
+        List<String> races = controller.getRaces();
         if (!races.isEmpty()) {
-            raceComboBox.setItems(FXCollections.observableArrayList(races));
-            raceComboBox.getSelectionModel().selectFirst();
+            // Hozzáadjuk a promptot az első elemnek
+            List<String> racesWithPrompt = new ArrayList<>();
+            racesWithPrompt.add(PROMPT_VALUE);
+            racesWithPrompt.addAll(races);
+
+            // Kikapcsoljuk a promptText-et, mert most már az értékek között van
+            raceComboBox.setPromptText("");
+
+            // Beállítjuk a prompttel együtt az itemeket
+            raceComboBox.setItems(FXCollections.observableArrayList(racesWithPrompt));
+
+            // Kezdetben a promptot választjuk ki
+            raceComboBox.setValue(PROMPT_VALUE);
         }
 
         // Jellem ComboBox feltöltése
-        List<String> alignments = StaticData.getInstance().getAlignments();
+        List<String> alignments = controller.getAlignments();
         if (!alignments.isEmpty()) {
             alignmentComboBox.setItems(FXCollections.observableArrayList(alignments));
             alignmentComboBox.getSelectionModel().selectFirst();
         }
 
-        // Induló állapot beállítása
-        updateClassOptions();
+        // Kaszt és alkaszt ComboBox-ok inaktívak kezdetben és a prompt érték látszik
+        List<String> promptList = new ArrayList<>();
+        promptList.add(PROMPT_VALUE);
+
+        classComboBox.setDisable(true);
+        classComboBox.setPromptText("");
+        classComboBox.setItems(FXCollections.observableArrayList(promptList));
+        classComboBox.setValue(PROMPT_VALUE);
+
+        subclassComboBox.setDisable(true);
+        subclassComboBox.setPromptText("");
+        subclassComboBox.setItems(FXCollections.observableArrayList(promptList));
+        subclassComboBox.setValue(PROMPT_VALUE);
     }
+
+
 
     /**
      * Kaszt opciók frissítése a kiválasztott faj alapján.
+     * Ha a korábban kiválasztott kaszt elérhető az új fajnál, akkor megtartja azt.
      */
     private void updateClassOptions() {
         String selectedRace = raceComboBox.getValue();
-        // Itt még nem szűrünk faj szerint, minden kasztot betöltünk
-        List<String> classes = StaticData.getInstance().getCharacterClasses();
 
-        classComboBox.setItems(FXCollections.observableArrayList(classes));
-        if (!classes.isEmpty()) {
-            classComboBox.getSelectionModel().selectFirst();
-        } else {
-            classComboBox.getSelectionModel().clearSelection();
+        // Ha nincs faj kiválasztva, a kaszt ComboBox inaktív
+        if (selectedRace == null || selectedRace.isEmpty() || PROMPT_VALUE.equals(selectedRace)) {
+            // Prompt értéket adjunk a ComboBox-nak null helyett
+            List<String> promptList = new ArrayList<>();
+            promptList.add(PROMPT_VALUE);
+
+            classComboBox.setPromptText("");  // Kikapcsoljuk a promptText-et
+            classComboBox.setItems(FXCollections.observableArrayList(promptList));
+            classComboBox.setValue(PROMPT_VALUE);
+            classComboBox.setDisable(true); // Inaktív állapot
+
+            // Ha nincs faj, akkor alkaszt sem választható
+            subclassComboBox.setPromptText("");  // Kikapcsoljuk a promptText-et
+            subclassComboBox.setItems(FXCollections.observableArrayList(promptList));
+            subclassComboBox.setValue(PROMPT_VALUE);
+            subclassComboBox.setDisable(true); // Inaktív állapot
+
+            return;
+        }
+
+        // Ha van faj kiválasztva, a kaszt ComboBox aktív
+        classComboBox.setDisable(false);
+
+        // Mentsük el a jelenlegi kaszt kiválasztást
+        String currentClass = classComboBox.getValue();
+
+        // A fajhoz elérhető kasztok lekérése a controller-től
+        List<String> classes = controller.getClassesForRace(selectedRace);
+
+        // Hozzáadjuk a promptot az első elemnek
+        List<String> classesWithPrompt = new ArrayList<>();
+        classesWithPrompt.add(PROMPT_VALUE);
+        classesWithPrompt.addAll(classes);
+
+        // Kikapcsoljuk a promptText-et, mert most már az értékek között van
+        classComboBox.setPromptText("");
+
+        // Frissítsük a ComboBox tartalmát
+        classComboBox.setItems(FXCollections.observableArrayList(classesWithPrompt));
+
+        // Ha a korábban kiválasztott kaszt szerepel az új listában, tegyük azt aktívvá
+        if (currentClass != null && !PROMPT_VALUE.equals(currentClass) && classes.contains(currentClass)) {
+            classComboBox.setValue(currentClass);
+            System.out.println("Korábbi kaszt megtartva: " + currentClass);
+        }
+        // Egyébként állítsuk a prompt értékre
+        else {
+            classComboBox.setValue(PROMPT_VALUE);
+            System.out.println("Kaszt prompt értékre állítva");
         }
 
         updateSubclassOptions();
     }
 
     /**
+     * Segédmetódus a promptText frissítéséhez
+     */
+    private void refreshPromptText(ComboBox<?> comboBox) {
+        // A prompt text értékének ideiglenes nullázása és visszaállítása kényszeríti a UI frissítést
+        String promptText = comboBox.getPromptText();
+        comboBox.setPromptText(null);
+        comboBox.setPromptText(promptText);
+    }
+
+    /**
      * Alkaszt opciók frissítése a kiválasztott kaszt alapján.
+     * Ha a korábban kiválasztott alkaszt elérhető az új kasztnál, akkor megtartja azt.
      */
     private void updateSubclassOptions() {
         String selectedClass = classComboBox.getValue();
-        List<String> subclasses = selectedClass != null && !selectedClass.isEmpty() ?
-                StaticData.getInstance().getSubclasses(selectedClass) : new ArrayList<>();
 
-        subclassComboBox.setItems(FXCollections.observableArrayList(subclasses));
-        if (!subclasses.isEmpty()) {
-            subclassComboBox.getSelectionModel().selectFirst();
-        } else {
-            subclassComboBox.getSelectionModel().clearSelection();
+        // Ha nincs kaszt kiválasztva, vagy prompt érték, az alkaszt ComboBox inaktív
+        if (selectedClass == null || selectedClass.isEmpty() || PROMPT_VALUE.equals(selectedClass)) {
+            // Prompt értéket adjunk a ComboBox-nak null helyett
+            List<String> promptList = new ArrayList<>();
+            promptList.add(PROMPT_VALUE);
+
+            subclassComboBox.setPromptText("");  // Kikapcsoljuk a promptText-et
+            subclassComboBox.setItems(FXCollections.observableArrayList(promptList));
+            subclassComboBox.setValue(PROMPT_VALUE);
+            subclassComboBox.setDisable(true); // Inaktív állapot
+            return;
+        }
+
+        // Ha van kaszt kiválasztva, az alkaszt ComboBox aktív
+        subclassComboBox.setDisable(false);
+
+        // Mentsük el a jelenlegi alkaszt kiválasztást
+        String currentSubclass = subclassComboBox.getValue();
+
+        // A kaszthoz elérhető alkasztok lekérése a controller-től
+        List<String> subclasses = controller.getSubclasses(selectedClass);
+
+        // Hozzáadjuk a "-" opciót, ha erre szükség van
+        if (!subclasses.contains("-")) {
+            subclasses.add(0, "-");
+        }
+
+        // Hozzáadjuk a promptot az első elemnek
+        List<String> subclassesWithPrompt = new ArrayList<>();
+        subclassesWithPrompt.add(PROMPT_VALUE);
+        subclassesWithPrompt.addAll(subclasses);
+
+        // Kikapcsoljuk a promptText-et, mert most már az értékek között van
+        subclassComboBox.setPromptText("");
+
+        // Frissítsük a ComboBox tartalmát
+        subclassComboBox.setItems(FXCollections.observableArrayList(subclassesWithPrompt));
+
+        // Ha a korábban kiválasztott alkaszt szerepel az új listában, tegyük azt aktívvá
+        if (currentSubclass != null && !PROMPT_VALUE.equals(currentSubclass) && subclasses.contains(currentSubclass)) {
+            subclassComboBox.setValue(currentSubclass);
+            System.out.println("Korábbi alkaszt megtartva: " + currentSubclass);
+        }
+        // Egyébként állítsuk a prompt értékre
+        else {
+            subclassComboBox.setValue(PROMPT_VALUE);
+            System.out.println("Alkaszt prompt értékre állítva");
         }
     }
 
     /**
-     * Példa vallások létrehozása csoportosítva a GroupedComboBox számára
+     * A vallások csoportosítása kategóriák szerint a GroupedComboBox számára
      */
-    private List<String> createSampleReligions() {
-        // A valódi adatok helyett egy egyszerűsített példát használunk
-        return Arrays.asList(
-                "-- Pyarroni vallások --",
-                "Adron",
-                "Arel",
-                "Dreina",
-                "Kyel",
-                "-- Gorviki vallások --",
-                "Ranagol",
-                "-- Törpe vallások --",
-                "Kadal",
-                "Tooma",
-                "-- Elf vallások --",
-                "Urria",
-                "Veela",
-                "-- Egyéb vallások --",
-                "Ősi hit",
-                "Krad"
-        );
+    private List<String> createGroupedReligions() {
+        return controller.getGroupedReligions();
     }
 
     /**
