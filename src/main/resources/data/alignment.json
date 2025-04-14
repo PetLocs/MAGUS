@@ -1,0 +1,62 @@
+[
+  {
+    "id": "élet",
+    "name": "élet",
+    "type": "ALIGNMENT"
+  },
+  {
+    "id": "élet-káosz",
+    "name": "élet-káosz",
+    "type": "ALIGNMENT"
+  },
+  {
+    "id": "élet-rend",
+    "name": "élet-rend",
+    "type": "ALIGNMENT"
+  },
+  {
+    "id": "halál",
+    "name": "halál",
+    "type": "ALIGNMENT"
+  },
+  {
+    "id": "halál-káosz",
+    "name": "halál-káosz",
+    "type": "ALIGNMENT"
+  },
+  {
+    "id": "halál-rend",
+    "name": "halál-rend",
+    "type": "ALIGNMENT"
+  },
+  {
+    "id": "káosz",
+    "name": "káosz",
+    "type": "ALIGNMENT"
+  },
+  {
+    "id": "káosz-élet",
+    "name": "káosz-élet",
+    "type": "ALIGNMENT"
+  },
+  {
+    "id": "káosz-halál",
+    "name": "káosz-halál",
+    "type": "ALIGNMENT"
+  },
+  {
+    "id": "rend",
+    "name": "rend",
+    "type": "ALIGNMENT"
+  },
+  {
+    "id": "rend-élet",
+    "name": "rend-élet",
+    "type": "ALIGNMENT"
+  },
+  {
+    "id": "rend-halál",
+    "name": "rend-halál",
+    "type": "ALIGNMENT"
+  }
+]

@@ -101,16 +101,6 @@ public class StaticData {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Visszaadja a származások listáját.
-     *
-     * @return A származások listája
-     */
-    public List<String> getOrigins() {
-        return getItems(DataType.ORIGIN).stream()
-                .map(StaticDataItem::getName)
-                .collect(Collectors.toList());
-    }
 
     /**
      * Visszaadja a jellemek listáját.

@@ -5,9 +5,7 @@ import hu.petloc.ui.NumberAdjuster;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
@@ -21,13 +19,15 @@ public class AbilitiesPanelView {
 
     // Képesség beállítók
     private NumberAdjuster strengthAdjuster;
-    private NumberAdjuster enduranceAdjuster;
-    private NumberAdjuster dexterityAdjuster;
     private NumberAdjuster speedAdjuster;
+    private NumberAdjuster dexterityAdjuster;
+    private NumberAdjuster enduranceAdjuster;
+    private NumberAdjuster healthAdjuster;
+    private NumberAdjuster charismaAdjuster;
     private NumberAdjuster intelligenceAdjuster;
     private NumberAdjuster willpowerAdjuster;
     private NumberAdjuster astralAdjuster;
-    private NumberAdjuster beautyAdjuster;
+    private NumberAdjuster perceptionAdjuster;
 
     /**
      * Konstruktor a képességek panel nézetéhez.
@@ -48,14 +48,14 @@ public class AbilitiesPanelView {
         root.setPadding(new Insets(10));
 
         // Főcím
-        Label titleLabel = new Label("Képességértékek");
+        Label titleLabel = new Label("Tulajdonságok");
         titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
-        // Fizikai képességek
-        GridPane physicalGrid = new GridPane();
-        physicalGrid.setHgap(10);
-        physicalGrid.setVgap(10);
-        physicalGrid.setAlignment(Pos.CENTER);
+        // Tulajdonságok rács
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setAlignment(Pos.CENTER);
 
         int row = 0;
 
@@ -64,82 +64,83 @@ public class AbilitiesPanelView {
         strengthAdjuster = createAdjuster(3, 18, 10);
         strengthAdjuster.valueProperty().addListener((obs, oldVal, newVal) ->
                 controller.setStrength(newVal.intValue()));
-        physicalGrid.add(strengthLabel, 0, row);
-        physicalGrid.add(strengthAdjuster, 1, row++);
-
-        // Állóképesség
-        Label enduranceLabel = new Label("Állóképesség");
-        enduranceAdjuster = createAdjuster(3, 18, 10);
-        enduranceAdjuster.valueProperty().addListener((obs, oldVal, newVal) ->
-                controller.setEndurance(newVal.intValue()));
-        physicalGrid.add(enduranceLabel, 0, row);
-        physicalGrid.add(enduranceAdjuster, 1, row++);
-
-        // Ügyesség
-        Label dexterityLabel = new Label("Ügyesség");
-        dexterityAdjuster = createAdjuster(3, 18, 10);
-        dexterityAdjuster.valueProperty().addListener((obs, oldVal, newVal) ->
-                controller.setDexterity(newVal.intValue()));
-        physicalGrid.add(dexterityLabel, 0, row);
-        physicalGrid.add(dexterityAdjuster, 1, row++);
+        grid.add(strengthLabel, 0, row);
+        grid.add(strengthAdjuster, 1, row++);
 
         // Gyorsaság
         Label speedLabel = new Label("Gyorsaság");
         speedAdjuster = createAdjuster(3, 18, 10);
         speedAdjuster.valueProperty().addListener((obs, oldVal, newVal) ->
                 controller.setSpeed(newVal.intValue()));
-        physicalGrid.add(speedLabel, 0, row);
-        physicalGrid.add(speedAdjuster, 1, row++);
+        grid.add(speedLabel, 0, row);
+        grid.add(speedAdjuster, 1, row++);
 
-        // Mentális képességek
-        GridPane mentalGrid = new GridPane();
-        mentalGrid.setHgap(10);
-        mentalGrid.setVgap(10);
-        mentalGrid.setAlignment(Pos.CENTER);
+        // Ügyesség
+        Label dexterityLabel = new Label("Ügyesség");
+        dexterityAdjuster = createAdjuster(3, 18, 10);
+        dexterityAdjuster.valueProperty().addListener((obs, oldVal, newVal) ->
+                controller.setDexterity(newVal.intValue()));
+        grid.add(dexterityLabel, 0, row);
+        grid.add(dexterityAdjuster, 1, row++);
 
-        row = 0;
+        // Állóképesség
+        Label enduranceLabel = new Label("Állóképesség");
+        enduranceAdjuster = createAdjuster(3, 18, 10);
+        enduranceAdjuster.valueProperty().addListener((obs, oldVal, newVal) ->
+                controller.setEndurance(newVal.intValue()));
+        grid.add(enduranceLabel, 0, row);
+        grid.add(enduranceAdjuster, 1, row++);
+
+        // Egészség
+        Label healthLabel = new Label("Egészség");
+        healthAdjuster = createAdjuster(3, 18, 10);
+        healthAdjuster.valueProperty().addListener((obs, oldVal, newVal) ->
+                controller.setHealth(newVal.intValue()));
+        grid.add(healthLabel, 0, row);
+        grid.add(healthAdjuster, 1, row++);
+
+        // Karizma
+        Label charismaLabel = new Label("Karizma");
+        charismaAdjuster = createAdjuster(3, 18, 10);
+        charismaAdjuster.valueProperty().addListener((obs, oldVal, newVal) ->
+                controller.setCharisma(newVal.intValue()));
+        grid.add(charismaLabel, 0, row);
+        grid.add(charismaAdjuster, 1, row++);
 
         // Intelligencia
         Label intelligenceLabel = new Label("Intelligencia");
         intelligenceAdjuster = createAdjuster(3, 18, 10);
         intelligenceAdjuster.valueProperty().addListener((obs, oldVal, newVal) ->
                 controller.setIntelligence(newVal.intValue()));
-        mentalGrid.add(intelligenceLabel, 0, row);
-        mentalGrid.add(intelligenceAdjuster, 1, row++);
+        grid.add(intelligenceLabel, 0, row);
+        grid.add(intelligenceAdjuster, 1, row++);
 
         // Akaraterő
         Label willpowerLabel = new Label("Akaraterő");
         willpowerAdjuster = createAdjuster(3, 18, 10);
         willpowerAdjuster.valueProperty().addListener((obs, oldVal, newVal) ->
                 controller.setWillpower(newVal.intValue()));
-        mentalGrid.add(willpowerLabel, 0, row);
-        mentalGrid.add(willpowerAdjuster, 1, row++);
+        grid.add(willpowerLabel, 0, row);
+        grid.add(willpowerAdjuster, 1, row++);
 
         // Asztrál
         Label astralLabel = new Label("Asztrál");
         astralAdjuster = createAdjuster(3, 18, 10);
         astralAdjuster.valueProperty().addListener((obs, oldVal, newVal) ->
                 controller.setAstral(newVal.intValue()));
-        mentalGrid.add(astralLabel, 0, row);
-        mentalGrid.add(astralAdjuster, 1, row++);
+        grid.add(astralLabel, 0, row);
+        grid.add(astralAdjuster, 1, row++);
 
-        // Szépség
-        Label beautyLabel = new Label("Szépség");
-        beautyAdjuster = createAdjuster(3, 18, 10);
-        beautyAdjuster.valueProperty().addListener((obs, oldVal, newVal) ->
-                controller.setBeauty(newVal.intValue()));
-        mentalGrid.add(beautyLabel, 0, row);
-        mentalGrid.add(beautyAdjuster, 1, row++);
-
-        // Panelek elhelyezése
-        TitledPane physicalPane = new TitledPane("Fizikai képességek", physicalGrid);
-        physicalPane.setCollapsible(false);
-
-        TitledPane mentalPane = new TitledPane("Mentális képességek", mentalGrid);
-        mentalPane.setCollapsible(false);
+        // Érzékelés
+        Label perceptionLabel = new Label("Érzékelés");
+        perceptionAdjuster = createAdjuster(3, 18, 10);
+        perceptionAdjuster.valueProperty().addListener((obs, oldVal, newVal) ->
+                controller.setPerception(newVal.intValue()));
+        grid.add(perceptionLabel, 0, row);
+        grid.add(perceptionAdjuster, 1, row++);
 
         // Elemek hozzáadása a konténerhez
-        root.getChildren().addAll(titleLabel, physicalPane, mentalPane);
+        root.getChildren().addAll(titleLabel, grid);
     }
 
     /**
@@ -175,12 +176,12 @@ public class AbilitiesPanelView {
     }
 
     /**
-     * Állóképesség érték beállítása.
+     * Gyorsaság érték beállítása.
      *
      * @param value Az új érték
      */
-    public void setEndurance(int value) {
-        enduranceAdjuster.setValue(value);
+    public void setSpeed(int value) {
+        speedAdjuster.setValue(value);
     }
 
     /**
@@ -193,12 +194,30 @@ public class AbilitiesPanelView {
     }
 
     /**
-     * Gyorsaság érték beállítása.
+     * Állóképesség érték beállítása.
      *
      * @param value Az új érték
      */
-    public void setSpeed(int value) {
-        speedAdjuster.setValue(value);
+    public void setEndurance(int value) {
+        enduranceAdjuster.setValue(value);
+    }
+
+    /**
+     * Egészség érték beállítása.
+     *
+     * @param value Az új érték
+     */
+    public void setHealth(int value) {
+        healthAdjuster.setValue(value);
+    }
+
+    /**
+     * Karizma érték beállítása.
+     *
+     * @param value Az új érték
+     */
+    public void setCharisma(int value) {
+        charismaAdjuster.setValue(value);
     }
 
     /**
@@ -229,11 +248,22 @@ public class AbilitiesPanelView {
     }
 
     /**
+     * Érzékelés érték beállítása.
+     *
+     * @param value Az új érték
+     */
+    public void setPerception(int value) {
+        perceptionAdjuster.setValue(value);
+    }
+
+    /**
+     * @deprecated Használd helyette a setCharisma() metódust
      * Szépség érték beállítása.
      *
      * @param value Az új érték
      */
+    @Deprecated
     public void setBeauty(int value) {
-        beautyAdjuster.setValue(value);
+        charismaAdjuster.setValue(value);
     }
 }

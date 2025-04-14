@@ -59,13 +59,15 @@ public class AbilitiesPanelController implements BasePanelController {
     private void updateViewFromCharacter() {
         // Képességértékek beállítása a nézetben
         view.setStrength(character.getStrength());
-        view.setEndurance(character.getEndurance());
-        view.setDexterity(character.getDexterity());
         view.setSpeed(character.getSpeed());
+        view.setDexterity(character.getDexterity());
+        view.setEndurance(character.getEndurance());
+        view.setHealth(character.getHealth());
+        view.setCharisma(character.getCharisma());
         view.setIntelligence(character.getIntelligence());
         view.setWillpower(character.getWillpower());
         view.setAstral(character.getAstral());
-        view.setBeauty(character.getBeauty());
+        view.setPerception(character.getPerception());
     }
 
     /**
@@ -146,10 +148,45 @@ public class AbilitiesPanelController implements BasePanelController {
     }
 
     /**
+     * Karizma képesség beállítása.
+     *
+     * @param value Az új érték
+     */
+    public void setCharisma(int value) {
+        if (character != null) {
+            character.setCharisma(value);
+        }
+    }
+
+    /**
+     * Egészség képesség beállítása.
+     *
+     * @param value Az új érték
+     */
+    public void setHealth(int value) {
+        if (character != null) {
+            character.setHealth(value);
+        }
+    }
+
+    /**
+     * Érzékelés képesség beállítása.
+     *
+     * @param value Az új érték
+     */
+    public void setPerception(int value) {
+        if (character != null) {
+            character.setPerception(value);
+        }
+    }
+
+    /**
+     * @deprecated Használd helyette a setCharisma() metódust
      * Szépség képesség beállítása.
      *
      * @param value Az új érték
      */
+    @Deprecated
     public void setBeauty(int value) {
         if (character != null) {
             character.setBeauty(value);

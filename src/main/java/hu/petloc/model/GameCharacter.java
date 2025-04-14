@@ -25,13 +25,15 @@ public class GameCharacter {
 
     // Képességértékek (3-18)
     private int strength = 10;
-    private int endurance = 10;
-    private int dexterity = 10;
     private int speed = 10;
+    private int dexterity = 10;
+    private int endurance = 10;
+    private int health = 10;
+    private int charisma = 10;
     private int intelligence = 10;
     private int willpower = 10;
     private int astral = 10;
-    private int beauty = 10;
+    private int perception = 10;
 
     // Eseménynapló
     private List<String> logEntries = new ArrayList<>();
@@ -363,21 +365,79 @@ public class GameCharacter {
     }
 
     /**
-     * Karakter szépség képesség lekérése.
+     * Karakter karizma képesség lekérése.
      *
-     * @return A karakter szépsége
+     * @return A karakter karizmája
      */
-    public int getBeauty() {
-        return beauty;
+    public int getCharisma() {
+        return charisma;
     }
 
     /**
-     * Karakter szépség képesség beállítása.
+     * Karakter karizma képesség beállítása.
      *
-     * @param beauty Az új szépség érték
+     * @param charisma Az új karizma érték
      */
+    public void setCharisma(int charisma) {
+        this.charisma = charisma;
+    }
+
+    /**
+     * Karakter egészség képesség lekérése.
+     *
+     * @return A karakter egészsége
+     */
+    public int getHealth() {
+        return health;
+    }
+
+    /**
+     * Karakter egészség képesség beállítása.
+     *
+     * @param health Az új egészség érték
+     */
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    /**
+     * Karakter érzékelés képesség lekérése.
+     *
+     * @return A karakter érzékelése
+     */
+    public int getPerception() {
+        return perception;
+    }
+
+    /**
+     * Karakter érzékelés képesség beállítása.
+     *
+     * @param perception Az új érzékelés érték
+     */
+    public void setPerception(int perception) {
+        this.perception = perception;
+    }
+
+    /**
+     * @deprecated Használd helyette a getCharisma() metódust
+     * Karakter szépség képesség lekérése (kompatibilitás miatt).
+     *
+     * @return A karakter karizmája
+     */
+    @Deprecated
+    public int getBeauty() {
+        return charisma;
+    }
+
+    /**
+     * @deprecated Használd helyette a setCharisma() metódust
+     * Karakter szépség képesség beállítása (kompatibilitás miatt).
+     *
+     * @param beauty Az új karizma érték
+     */
+    @Deprecated
     public void setBeauty(int beauty) {
-        this.beauty = beauty;
+        this.charisma = beauty;
     }
 
     /**
