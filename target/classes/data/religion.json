@@ -1,0 +1,357 @@
+[
+  {
+    "id": "amhe-ramun_amhe-ramuun",
+    "name": "Amhe-Ramun (Amhe-Ramuun)",
+    "type": "RELIGION"
+  },
+  {
+    "id": "nesire_nethiree",
+    "name": "Nesire (Nethiree)",
+    "type": "RELIGION"
+  },
+  {
+    "id": "refis_reefith",
+    "name": "Refis (Reefith)",
+    "type": "RELIGION"
+  },
+  {
+    "id": "themes_theemeth",
+    "name": "Themes (Theemeth)",
+    "type": "RELIGION"
+  },
+  {
+    "id": "doldzsah",
+    "name": "Doldzsah",
+    "type": "RELIGION"
+  },
+  {
+    "id": "dzsah",
+    "name": "Dzsah",
+    "type": "RELIGION"
+  },
+  {
+    "id": "galradzsa",
+    "name": "Galradzsa",
+    "type": "RELIGION"
+  },
+  {
+    "id": "domvik",
+    "name": "Domvik",
+    "type": "RELIGION"
+  },
+  {
+    "id": "kaoraku",
+    "name": "Kaoraku",
+    "type": "RELIGION"
+  },
+  {
+    "id": "ranagol",
+    "name": "Ranagol",
+    "type": "RELIGION"
+  },
+  {
+    "id": "ranil",
+    "name": "Ranil",
+    "type": "RELIGION"
+  },
+  {
+    "id": "orwella",
+    "name": "Orwella",
+    "type": "RELIGION"
+  },
+  {
+    "id": "eidhil_k'meakhan_a_dalokban_élő",
+    "name": "Eidhil K'Meakhan, a Dalokban Élő",
+    "type": "RELIGION"
+  },
+  {
+    "id": "finna_lies_a_korokon_tanító",
+    "name": "Finna Lies, a Korokon Tanító",
+    "type": "RELIGION"
+  },
+  {
+    "id": "flidais_d'amatel_a_lombok_őre",
+    "name": "Flidais D'amatel, a Lombok Őre",
+    "type": "RELIGION"
+  },
+  {
+    "id": "gor_hannain_a_tűzben_élő",
+    "name": "Gor Hannain, a Tűzben Élő",
+    "type": "RELIGION"
+  },
+  {
+    "id": "hantien_harran_az_árnyékban_neszező",
+    "name": "Hantien Harran, az Árnyékban Neszező",
+    "type": "RELIGION"
+  },
+  {
+    "id": "magon_l'levar_a_szavakat_ismerő",
+    "name": "Magon L'levar, a Szavakat Ismerő",
+    "type": "RELIGION"
+  },
+  {
+    "id": "mallior_az_éjben_kacagó",
+    "name": "Mallior, az Éjben Kacagó",
+    "type": "RELIGION"
+  },
+  {
+    "id": "moranna_naranol_a_homály_lakója",
+    "name": "Moranna Naranol, a Homály Lakója",
+    "type": "RELIGION"
+  },
+  {
+    "id": "narmiraen_a_ködökön_járó",
+    "name": "Narmiraen, a Ködökön Járó",
+    "type": "RELIGION"
+  },
+  {
+    "id": "nemathiel_airaven_a_tűzhelyre_vigyázó",
+    "name": "Nemathiel Airaven, a Tűzhelyre Vigyázó",
+    "type": "RELIGION"
+  },
+  {
+    "id": "rhienna_malvaureen_a_tűz_csiholója_a_mosolyokban_honoló",
+    "name": "Rhienna Malvaureen, A Tűz Csiholója, a Mosolyokban Honoló",
+    "type": "RELIGION"
+  },
+  {
+    "id": "siena_boralisse_az_érintéssel_enyhítő",
+    "name": "Siena Boralisse, az Érintéssel Enyhítő",
+    "type": "RELIGION"
+  },
+  {
+    "id": "tyssa_l'imenel_a_vér_nélkül_való",
+    "name": "Tyssa L'imenel, a Vér Nélkül Való",
+    "type": "RELIGION"
+  },
+  {
+    "id": "veela_luminatar_az_egykor_volt_fényesség",
+    "name": "Veela Luminatar, az Egykor Volt Fényesség",
+    "type": "RELIGION"
+  },
+  {
+    "id": "verrion_h'anthall_a_sötétség_szája_a_mindeneket_elnyelő",
+    "name": "Verrion H'anthall, a Sötétség Szája, a Mindeneket Elnyelő",
+    "type": "RELIGION"
+  },
+  {
+    "id": "káosz-abbog",
+    "name": "Káosz-Abbog",
+    "type": "RELIGION"
+  },
+  {
+    "id": "káosz-buulzaab",
+    "name": "Káosz-Buulzaab",
+    "type": "RELIGION"
+  },
+  {
+    "id": "káosz-huvarhg",
+    "name": "Káosz-Huvarhg",
+    "type": "RELIGION"
+  },
+  {
+    "id": "káosz-khakht",
+    "name": "Káosz-Khakht",
+    "type": "RELIGION"
+  },
+  {
+    "id": "káosz-metha",
+    "name": "Káosz-Metha",
+    "type": "RELIGION"
+  },
+  {
+    "id": "káosz-ouddaka",
+    "name": "Káosz-Ouddaka",
+    "type": "RELIGION"
+  },
+  {
+    "id": "káosz-raddaq",
+    "name": "Káosz-Raddaq",
+    "type": "RELIGION"
+  },
+  {
+    "id": "káosz-samambrag",
+    "name": "Káosz-Samambrag",
+    "type": "RELIGION"
+  },
+  {
+    "id": "káosz-sraddhu",
+    "name": "Káosz-Sraddhu",
+    "type": "RELIGION"
+  },
+  {
+    "id": "káosz-thuragh",
+    "name": "Káosz-Thuragh",
+    "type": "RELIGION"
+  },
+  {
+    "id": "káosz-uqmat",
+    "name": "Káosz-Uqmat",
+    "type": "RELIGION"
+  },
+  {
+    "id": "káosz-vulak",
+    "name": "Káosz-Vulak",
+    "type": "RELIGION"
+  },
+  {
+    "id": "káosz-yukk'rt",
+    "name": "Káosz-Yukk'rt",
+    "type": "RELIGION"
+  },
+  {
+    "id": "igere",
+    "name": "Igere",
+    "type": "RELIGION"
+  },
+  {
+    "id": "morgena",
+    "name": "Morgena",
+    "type": "RELIGION"
+  },
+  {
+    "id": "sogron",
+    "name": "Sogron",
+    "type": "RELIGION"
+  },
+  {
+    "id": "tharr",
+    "name": "Tharr",
+    "type": "RELIGION"
+  },
+  {
+    "id": "weilla",
+    "name": "Weilla",
+    "type": "RELIGION"
+  },
+  {
+    "id": "bhaer-shadagg",
+    "name": "Bhaer-Shadagg",
+    "type": "RELIGION"
+  },
+  {
+    "id": "gar_bokkar",
+    "name": "Gar Bokkar",
+    "type": "RELIGION"
+  },
+  {
+    "id": "ghazga",
+    "name": "Ghazga",
+    "type": "RELIGION"
+  },
+  {
+    "id": "hram_a_mélységben_lakozó",
+    "name": "Hram, a Mélységben Lakozó",
+    "type": "RELIGION"
+  },
+  {
+    "id": "hurag_dhaur_a_szürke_öreg",
+    "name": "Hurag Dhaur, a Szürke Öreg",
+    "type": "RELIGION"
+  },
+  {
+    "id": "nagy_vordak",
+    "name": "Nagy Vordak",
+    "type": "RELIGION"
+  },
+  {
+    "id": "oothre_a_titokzatos",
+    "name": "Oothre, a Titokzatos",
+    "type": "RELIGION"
+  },
+  {
+    "id": "tha'ushur_a_szunnyadó",
+    "name": "Tha'ushur, a Szunnyadó",
+    "type": "RELIGION"
+  },
+  {
+    "id": "ughjorbagan_a_falánk",
+    "name": "Ughjorbagan, a Falánk",
+    "type": "RELIGION"
+  },
+  {
+    "id": "adron",
+    "name": "Adron",
+    "type": "RELIGION"
+  },
+  {
+    "id": "alborne",
+    "name": "Alborne",
+    "type": "RELIGION"
+  },
+  {
+    "id": "antoh",
+    "name": "Antoh",
+    "type": "RELIGION"
+  },
+  {
+    "id": "arel",
+    "name": "Arel",
+    "type": "RELIGION"
+  },
+  {
+    "id": "darton",
+    "name": "Darton",
+    "type": "RELIGION"
+  },
+  {
+    "id": "della",
+    "name": "Della",
+    "type": "RELIGION"
+  },
+  {
+    "id": "dreina",
+    "name": "Dreina",
+    "type": "RELIGION"
+  },
+  {
+    "id": "ellana",
+    "name": "Ellana",
+    "type": "RELIGION"
+  },
+  {
+    "id": "gilron_gi-elron",
+    "name": "Gilron (Gi-Elron)",
+    "type": "RELIGION"
+  },
+  {
+    "id": "krad",
+    "name": "Krad",
+    "type": "RELIGION"
+  },
+  {
+    "id": "kyel",
+    "name": "Kyel",
+    "type": "RELIGION"
+  },
+  {
+    "id": "noir",
+    "name": "Noir",
+    "type": "RELIGION"
+  },
+  {
+    "id": "uwel",
+    "name": "Uwel",
+    "type": "RELIGION"
+  },
+  {
+    "id": "bul-ruurig_a_kőatya",
+    "name": "Bul-Ruurig, a Kőatya",
+    "type": "RELIGION"
+  },
+  {
+    "id": "kadal_a_tárnákat_zengető",
+    "name": "Kadal, a Tárnákat Zengető",
+    "type": "RELIGION"
+  },
+  {
+    "id": "tooma_a_fejszés",
+    "name": "Tooma, a Fejszés",
+    "type": "RELIGION"
+  },
+  {
+    "id": "zimah_a_szökevény",
+    "name": "Zimah, a Szökevény",
+    "type": "RELIGION"
+  }
+]

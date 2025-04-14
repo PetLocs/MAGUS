@@ -1,0 +1,53 @@
+[
+  {
+    "id": "ember_kasztok",
+    "name": "Ember",
+    "type": "CLASS_RACE",
+    "availableClasses": [
+      "Bárd", "Boszorkány", "Boszorkánymester", "Fejvadász", "Harcművész", "Harcos",
+      "Lovag", "Pap", "Paplovag", "Tolvaj", "Tűzvarázsló", "Varázsló"
+    ]
+  },
+  {
+    "id": "kyr_származék_kasztok",
+    "name": "Kyr Származék",
+    "type": "CLASS_RACE",
+    "availableClasses": [
+      "Bárd", "Boszorkány", "Boszorkánymester", "Fejvadász", "Harcművész", "Harcos",
+      "Lovag", "Pap", "Paplovag", "Tolvaj", "Tűzvarázsló", "Varázsló"
+    ]
+  },
+  {
+    "id": "elf_kasztok",
+    "name": "Elf",
+    "type": "CLASS_RACE",
+    "availableClasses": [
+      "Bárd", "Harcos", "Pap", "Varázsló"
+    ]
+  },
+  {
+    "id": "félelf_kasztok",
+    "name": "Félelf",
+    "type": "CLASS_RACE",
+    "availableClasses": [
+      "Bárd", "Boszorkány", "Fejvadász", "Harcművész", "Harcos",
+      "Lovag", "Pap", "Paplovag", "Tolvaj", "Varázsló"
+    ]
+  },
+  {
+    "id": "törpe_kasztok",
+    "name": "Törpe",
+    "type": "CLASS_RACE",
+    "availableClasses": [
+      "Harcos", "Pap", "Tolvaj", "Varázsló"
+    ]
+  },
+  {
+    "id": "udvari_ork_kasztok",
+    "name": "Udvari Ork",
+    "type": "CLASS_RACE",
+    "availableClasses": [
+      "Boszorkánymester", "Harcos", "Tolvaj"
+    ]
+  }
+]

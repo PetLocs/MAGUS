@@ -1,0 +1,32 @@
+[
+  {
+    "id": "elf",
+    "name": "Elf",
+    "type": "RACE"
+  },
+  {
+    "id": "ember",
+    "name": "Ember",
+    "type": "RACE"
+  },
+  {
+    "id": "félelf",
+    "name": "Félelf",
+    "type": "RACE"
+  },
+  {
+    "id": "kyr_származék",
+    "name": "Kyr Származék",
+    "type": "RACE"
+  },
+  {
+    "id": "törpe",
+    "name": "Törpe",
+    "type": "RACE"
+  },
+  {
+    "id": "udvari_ork",
+    "name": "Udvari Ork",
+    "type": "RACE"
+  }
+]

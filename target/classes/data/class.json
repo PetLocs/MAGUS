@@ -1,0 +1,62 @@
+[
+  {
+    "id": "bárd",
+    "name": "Bárd",
+    "type": "CLASS"
+  },
+  {
+    "id": "boszorkány",
+    "name": "Boszorkány",
+    "type": "CLASS"
+  },
+  {
+    "id": "boszorkánymester",
+    "name": "Boszorkánymester",
+    "type": "CLASS"
+  },
+  {
+    "id": "fejvadász",
+    "name": "Fejvadász",
+    "type": "CLASS"
+  },
+  {
+    "id": "harcművész",
+    "name": "Harcművész",
+    "type": "CLASS"
+  },
+  {
+    "id": "harcos",
+    "name": "Harcos",
+    "type": "CLASS"
+  },
+  {
+    "id": "lovag",
+    "name": "Lovag",
+    "type": "CLASS"
+  },
+  {
+    "id": "pap",
+    "name": "Pap",
+    "type": "CLASS"
+  },
+  {
+    "id": "paplovag",
+    "name": "Paplovag",
+    "type": "CLASS"
+  },
+  {
+    "id": "tolvaj",
+    "name": "Tolvaj",
+    "type": "CLASS"
+  },
+  {
+    "id": "tűzvarázsló",
+    "name": "Tűzvarázsló",
+    "type": "CLASS"
+  },
+  {
+    "id": "varázsló",
+    "name": "Varázsló",
+    "type": "CLASS"
+  }
+]
