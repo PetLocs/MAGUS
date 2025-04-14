@@ -34,11 +34,12 @@ public class BasicInfoPanelController extends BasePanelController {
     }
 
     /**
-     * Visszaadja a panel fő elemét.
+     * {@inheritDoc}
      *
-     * @return A panel root RegionPage
+     * @return A kontroller által kezelt nézet
      */
-    public Region getRoot() {
-        return view.getRoot();
+    @Override
+    public BasicInfoPanelView getView() {
+        return view;
     }
 }
