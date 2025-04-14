@@ -24,6 +24,10 @@ public class NumberAdjuster extends Adjuster {
      */
     @Override
     protected void updateValueLabel() {
+        // Null ellenőrzés a labelFormat esetén
+        if (labelFormat == null) {
+            labelFormat = "%d"; // Alapértelmezett formátum, ha null
+        }
         valueLabel.setText(String.format(labelFormat, value.get()));
     }
 
@@ -44,7 +48,7 @@ public class NumberAdjuster extends Adjuster {
      * @param format A formátum, amit String.format-tal használunk
      */
     public void setLabelFormat(String format) {
-        this.labelFormat = format;
+        this.labelFormat = (format != null) ? format : "%d"; // Null ellenőrzés
         updateValueLabel();
     }
 }
