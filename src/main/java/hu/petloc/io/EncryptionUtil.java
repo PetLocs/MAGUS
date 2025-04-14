@@ -26,13 +26,14 @@ public class EncryptionUtil {
      *
      * @param password A jelszó
      * @return SecretKey objektum
+     * @throws Exception Ha hiba történik a kulcs létrehozása során
      */
-    public static SecretKey generateKeyFromPassword(String password) {
+    public static SecretKey generateKeyFromPassword(String password) throws Exception {
         byte[] keyBytes = password.getBytes(StandardCharsets.UTF_8);
         // Biztosítjuk, hogy a kulcs megfelelő hosszúságú legyen (32 byte a 256 bites kulcshoz)
         byte[] keyBytes32 = new byte[32];
         System.arraycopy(keyBytes, 0, keyBytes32, 0, Math.min(keyBytes.length, 32));
-        return new SecretKeySpec(keyBytes32, ALGORITHM);
+        return new SecretKeySpec(keyBytes32, 0, 32, ALGORITHM);
     }
 
     /**

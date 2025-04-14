@@ -1,0 +1,50 @@
+[
+  {
+    "id": "harcos",
+    "name": "Harcos"
+  },
+  {
+    "id": "fejvadasz",
+    "name": "Fejvadász"
+  },
+  {
+    "id": "lovag",
+    "name": "Lovag"
+  },
+  {
+    "id": "pap",
+    "name": "Pap"
+  },
+  {
+    "id": "paplovag",
+    "name": "Paplovag"
+  },
+  {
+    "id": "varazslo",
+    "name": "Varázsló"
+  },
+  {
+    "id": "tuzvarazslo",
+    "name": "Tűzvarázsló"
+  },
+  {
+    "id": "boszorkany",
+    "name": "Boszorkány"
+  },
+  {
+    "id": "boszorkanymester",
+    "name": "Boszorkánymester"
+  },
+  {
+    "id": "bard",
+    "name": "Bárd"
+  },
+  {
+    "id": "tolvaj",
+    "name": "Tolvaj"
+  },
+  {
+    "id": "harcmuvesz",
+    "name": "Harcművész"
+  }
+]

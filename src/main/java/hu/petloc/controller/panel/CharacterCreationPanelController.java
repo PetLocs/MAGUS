@@ -110,12 +110,8 @@ public class CharacterCreationPanelController extends BasePanelController {
         // Nincs szükség adatok betöltésére, hiszen új karaktert hozunk létre
     }
 
-    /**
-     * Visszaadja a panel fő elemét.
-     *
-     * @return A panel root Region
-     */
-    public Region getRoot() {
-        return view.getRoot();
+    @Override
+    public CharacterCreationPanelView getView() {
+        return view;
     }
 }

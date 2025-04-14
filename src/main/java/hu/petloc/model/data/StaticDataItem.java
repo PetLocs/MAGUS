@@ -7,9 +7,6 @@ package hu.petloc.model.data;
 public class StaticDataItem {
     private String id;
     private String name;
-    private String group;
-    private String parentId;
-    private String description;
 
     /**
      * Üres konstruktor.
@@ -27,23 +24,6 @@ public class StaticDataItem {
     public StaticDataItem(String id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    /**
-     * Teljes konstruktor minden adattal.
-     *
-     * @param id Az elem azonosítója
-     * @param name Az elem megjelenítési neve
-     * @param group Az elem csoportja (opcionális)
-     * @param parentId A szülő elem azonosítója (opcionális)
-     * @param description Az elem leírása (opcionális)
-     */
-    public StaticDataItem(String id, String name, String group, String parentId, String description) {
-        this.id = id;
-        this.name = name;
-        this.group = group;
-        this.parentId = parentId;
-        this.description = description;
     }
 
     /**
@@ -82,59 +62,6 @@ public class StaticDataItem {
         this.name = name;
     }
 
-    /**
-     * Visszaadja az elem csoportját.
-     *
-     * @return Az elem csoportja
-     */
-    public String getGroup() {
-        return group;
-    }
-
-    /**
-     * Beállítja az elem csoportját.
-     *
-     * @param group Az új csoport
-     */
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
-    /**
-     * Visszaadja a szülő elem azonosítóját.
-     *
-     * @return A szülő elem azonosítója
-     */
-    public String getParentId() {
-        return parentId;
-    }
-
-    /**
-     * Beállítja a szülő elem azonosítóját.
-     *
-     * @param parentId Az új szülő azonosító
-     */
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
-    /**
-     * Visszaadja az elem leírását.
-     *
-     * @return Az elem leírása
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * Beállítja az elem leírását.
-     *
-     * @param description Az új leírás
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     /**
      * String reprezentáció.

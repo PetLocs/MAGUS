@@ -43,4 +43,12 @@ public class LoggerPanelController extends BasePanelController {
     public LoggerPanelView getView() {
         return view;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void updateUI() {
+        // Logger nem frissül karakter adatok alapján, így itt nincs teendő
+    }
 }

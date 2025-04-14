@@ -3,6 +3,7 @@ package hu.petloc.io;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.petloc.model.character.Character;
 
+import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -15,6 +16,7 @@ public class EncryptedJsonCharacterStorage implements CharacterStorage {
 
     private final ObjectMapper objectMapper;
     private final String encryptionPassword;
+    private SecretKey secretKey;
 
     /**
      * Konstruktor a titkosítási jelszóval.
@@ -24,6 +26,12 @@ public class EncryptedJsonCharacterStorage implements CharacterStorage {
     public EncryptedJsonCharacterStorage(String encryptionPassword) {
         this.objectMapper = new ObjectMapper();
         this.encryptionPassword = encryptionPassword;
+        // Kulcs inicializálása a jelszóból
+        try {
+            this.secretKey = EncryptionUtil.generateKeyFromPassword(encryptionPassword);
+        } catch (Exception e) {
+            throw new RuntimeException("Nem sikerült titkosítási kulcsot létrehozni: " + e.getMessage(), e);
+        }
         // Egyedi modul regisztrálása a JavaFX property-k kezeléséhez
         objectMapper.registerModule(new JavaFXPropertyModule());
     }
@@ -37,7 +45,12 @@ public class EncryptedJsonCharacterStorage implements CharacterStorage {
         String json = objectMapper.writeValueAsString(character);
 
         // JSON titkosítása
-        String encryptedJson = EncryptionUtil.encrypt(json, encryptionPassword);
+        String encryptedJson;
+        try {
+            encryptedJson = EncryptionUtil.encrypt(json, secretKey);
+        } catch (Exception e) {
+            throw new IOException("Hiba a karakter titkosítása során: " + e.getMessage(), e);
+        }
 
         // Titkosított JSON mentése fájlba
         Files.write(Paths.get(filepath), encryptedJson.getBytes());
@@ -58,7 +71,7 @@ public class EncryptedJsonCharacterStorage implements CharacterStorage {
             String encryptedJson = new String(Files.readAllBytes(Paths.get(filepath)));
 
             // Tartalom visszafejtése
-            String decryptedJson = EncryptionUtil.decrypt(encryptedJson, encryptionPassword);
+            String decryptedJson = EncryptionUtil.decrypt(encryptedJson, secretKey);
 
             // JSON deszerializálása objektummá
             return objectMapper.readValue(decryptedJson, Character.class);
