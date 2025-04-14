@@ -7,11 +7,11 @@ import javafx.scene.Parent;
 /**
  * Naplózó panel vezérlője.
  * Ez az osztály felelős a karakterhez kapcsolódó események naplózásáért.
+ * Kivételesen saját méretezéssel rendelkezik, amely nem a BasePanelController-től származik.
  */
-public class LoggerPanelController implements BasePanelController {
+public class LoggerPanelController extends BasePanelController {
 
     private final LoggerPanelView view;
-    private GameCharacter character;
 
     /**
      * Konstruktor a naplózó panel vezérlőjéhez.
@@ -40,14 +40,10 @@ public class LoggerPanelController implements BasePanelController {
     }
 
     /**
-     * Karakter beállítása a panelhez.
-     *
-     * @param character A beállítandó karakter
+     * Frissíti a felhasználói felületet a karakter adatai alapján.
      */
     @Override
-    public void setCharacter(GameCharacter character) {
-        this.character = character;
-
+    protected void updateUI() {
         // Naplóbejegyzések frissítése a karakter alapján
         if (character != null) {
             view.updateLogs(character);

@@ -11,16 +11,16 @@ import java.util.List;
  * Alapvető információs panel vezérlője.
  * Ez az osztály felelős a karakter alapadatainak kezeléséért.
  */
-public class BasicInfoPanelController implements BasePanelController {
+public class BasicInfoPanelController extends BasePanelController {
 
     private final BasicInfoPanelView view;
-    private GameCharacter character;
 
     /**
      * Konstruktor az alapvető információs panel vezérlőjéhez.
      */
     public BasicInfoPanelController() {
         this.view = new BasicInfoPanelView(this);
+        setupStandardSize(); // Beállítjuk a standard méretet
     }
 
     /**
@@ -43,14 +43,10 @@ public class BasicInfoPanelController implements BasePanelController {
     }
 
     /**
-     * Karakter beállítása a panelhez.
-     *
-     * @param character A beállítandó karakter
+     * Frissíti a felhasználói felületet a karakter adatai alapján.
      */
     @Override
-    public void setCharacter(GameCharacter character) {
-        this.character = character;
-
+    protected void updateUI() {
         if (character != null) {
             view.loadFromCharacter(character);
         } else {

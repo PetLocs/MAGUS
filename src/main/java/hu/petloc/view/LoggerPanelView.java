@@ -1,5 +1,6 @@
 package hu.petloc.view;
 
+import hu.petloc.controller.BasePanelController;
 import hu.petloc.controller.LoggerPanelController;
 import hu.petloc.model.GameCharacter;
 import javafx.geometry.Insets;
@@ -37,11 +38,20 @@ public class LoggerPanelView {
      */
     private void createUI() {
         root = new BorderPane();
-        root.setPadding(new Insets(10));
+        root.setPadding(new Insets(BasePanelController.PANEL_PADDING));
+
+        // Egyedi méretezés a LoggerPanel-nek
+        // Ez a panel ugyanolyan széles, de magasabb, mint a standard BasePanelController méretek
+        root.setPrefSize(BasePanelController.PANEL_WIDTH, 500);
+        root.setMinSize(BasePanelController.PANEL_WIDTH, 500);
+        root.setMaxSize(BasePanelController.PANEL_WIDTH, 500);
+
+        // Szegély hozzáadása
+        root.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-border-radius: 3px;");
 
         // Főcím
         Label titleLabel = new Label("Eseménynapló");
-        titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+        titleLabel.setStyle(BasePanelController.TITLE_STYLE);
 
         // Napló lista létrehozása
         logListView = new ListView<>();
@@ -63,12 +73,12 @@ public class LoggerPanelView {
         });
 
         // Gombok elhelyezése
-        HBox buttonBox = new HBox(10);
-        buttonBox.setPadding(new Insets(10, 0, 0, 0));
+        HBox buttonBox = new HBox(BasePanelController.SPACING);
+        buttonBox.setPadding(new Insets(BasePanelController.SPACING, 0, 0, 0));
         buttonBox.getChildren().addAll(addEntryButton, clearButton);
 
         // Nézet összeállítása
-        VBox contentBox = new VBox(10);
+        VBox contentBox = new VBox(BasePanelController.SPACING);
         contentBox.getChildren().addAll(titleLabel, logPane, buttonBox);
 
         root.setCenter(contentBox);

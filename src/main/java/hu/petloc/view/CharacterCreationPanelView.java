@@ -1,10 +1,12 @@
 package hu.petloc.view;
 
+import hu.petloc.controller.BasePanelController;
 import hu.petloc.controller.CharacterCreationPanelController;
 import hu.petloc.model.GameCharacter;
 import hu.petloc.ui.GroupedComboBox;
 import hu.petloc.ui.NumberAdjuster;
 import javafx.collections.FXCollections;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -30,8 +32,9 @@ public class CharacterCreationPanelView {
 
     /**
      * Speciális érték a ComboBox-ok számára, ami a promptText-et fogja megjeleníteni
+     * A controllerből használjuk az értéket az egységes kezeléshez
      */
-    private static final String PROMPT_VALUE = "...";
+    private final String PROMPT_VALUE = CharacterCreationPanelController.PROMPT_VALUE;
 
     private VBox root;
     private final CharacterCreationPanelController controller;
@@ -62,30 +65,100 @@ public class CharacterCreationPanelView {
     }
 
     /**
+     * Segédmetódus a TextField-ek megfelelő méretezéséhez
+     *
+     * @param field A méretezendő TextField
+     */
+    private void setupTextField(TextField field) {
+        // Teljes kitöltés beállítása
+        field.setPrefWidth(Double.MAX_VALUE);
+        field.setMaxWidth(Double.MAX_VALUE);
+        field.setMinWidth(100); // Minimális szélesség
+
+        // Szöveg balra igazítása
+        field.setAlignment(Pos.CENTER_LEFT);
+        field.setStyle(BasePanelController.FIELD_ALIGNMENT_STYLE);
+
+        // GridPane mezők számára fontos beállítás
+        GridPane.setFillWidth(field, true);
+        GridPane.setHgrow(field, Priority.ALWAYS);
+        GridPane.setHalignment(field, HPos.LEFT);
+    }
+
+    /**
+     * Segédmetódus a ComboBox-ok megfelelő méretezéséhez
+     *
+     * @param comboBox A méretezendő ComboBox
+     */
+    private void setupComboBox(ComboBox<?> comboBox) {
+        // Teljes kitöltés beállítása
+        comboBox.setPrefWidth(Double.MAX_VALUE);
+        comboBox.setMaxWidth(Double.MAX_VALUE);
+        comboBox.setMinWidth(100); // Minimális szélesség
+
+        // Balra igazítás a ComboBox-nál külön CSS-el
+        comboBox.setStyle(BasePanelController.FIELD_ALIGNMENT_STYLE);
+
+        // GridPane mezők számára fontos beállítás
+        GridPane.setFillWidth(comboBox, true);
+        GridPane.setHgrow(comboBox, Priority.ALWAYS);
+        GridPane.setHalignment(comboBox, HPos.LEFT);
+    }
+
+    /**
      * Felhasználói felület létrehozása.
      */
     private void createUI() {
-        // Konténer a teljes tartalomnak
-        root = new VBox(15);
-        root.setPadding(new Insets(20));
-        root.setAlignment(Pos.TOP_CENTER);
+        // Konténer a teljes tartalomnak - fix szélesség a BasePanelController alapján
+        root = new VBox(BasePanelController.SPACING);
+        root.setPadding(new Insets(BasePanelController.PANEL_PADDING));
 
-        // Főcím
+        // Beállítjuk a standard méreteket
+        root.setPrefSize(BasePanelController.PANEL_WIDTH, BasePanelController.PANEL_HEIGHT);
+        root.setMinSize(BasePanelController.PANEL_WIDTH, BasePanelController.PANEL_HEIGHT);
+        root.setMaxSize(BasePanelController.PANEL_WIDTH, BasePanelController.PANEL_HEIGHT);
+
+        // Egységes szegély beállítása
+        root.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-border-radius: 3px;");
+
+        root.setAlignment(Pos.TOP_LEFT);
+
+        // Főcím - balra igazítva
         Label titleLabel = new Label("Új karakter létrehozása");
-        titleLabel.setFont(Font.font("System", FontWeight.BOLD, 18));
+        titleLabel.setStyle(BasePanelController.TITLE_STYLE);
+        titleLabel.setAlignment(Pos.CENTER_LEFT);
+        titleLabel.setMaxWidth(Double.MAX_VALUE); // Teljes szélességet kitölti
 
         // GridPane a form elemeknek
         GridPane formGrid = new GridPane();
-        formGrid.setHgap(15);
-        formGrid.setVgap(10);
-        formGrid.setPadding(new Insets(10));
+        formGrid.setHgap(BasePanelController.SPACING * 2); // Egységes hézag
+        formGrid.setVgap(BasePanelController.SPACING);     // Egységes hézag
+        formGrid.setAlignment(Pos.TOP_LEFT);
 
-        // Oszlopok beállítása
+        // A root szélessége mínusz a padding (mindkét oldalon)
+        int availableWidth = BasePanelController.PANEL_WIDTH - (BasePanelController.PANEL_PADDING * 2);
+        formGrid.setMinWidth(availableWidth);
+        formGrid.setMaxWidth(availableWidth);
+
+        // Oszlopok beállítása - részletesen konfigurálva
         ColumnConstraints col1 = new ColumnConstraints();
-        col1.setMinWidth(100);
+        col1.setMinWidth(BasePanelController.LABEL_WIDTH);  // Konstanst használunk
+        col1.setMaxWidth(BasePanelController.LABEL_WIDTH);  // Rögzítjük a címkék szélességét
+        col1.setPrefWidth(BasePanelController.LABEL_WIDTH); // Preferált szélesség is azonos
+        col1.setHgrow(Priority.NEVER); // Soha ne növekedjen
+        col1.setHalignment(HPos.LEFT); // Balra igazítás
+        col1.setFillWidth(true); // Kitölti a cellát
+
+        // Második oszlop - itt lesznek a mezők
         ColumnConstraints col2 = new ColumnConstraints();
-        col2.setHgrow(Priority.ALWAYS);
-        col2.setFillWidth(true);
+        col2.setMinWidth(100); // Legalább 100px széles
+        // A maradék szélesség: availableWidth - címke szélesség
+        col2.setPrefWidth(availableWidth - BasePanelController.LABEL_WIDTH);
+        col2.setMaxWidth(Double.MAX_VALUE); // Maximálisan kitöltheti a helyet
+        col2.setHgrow(Priority.ALWAYS); // Mindig növekedjen, ha van hely
+        col2.setFillWidth(true); // Kitölti a cellát
+        col2.setHalignment(HPos.LEFT); // Balra igazítás
+
         formGrid.getColumnConstraints().addAll(col1, col2);
 
         // Form elemek
@@ -95,6 +168,7 @@ public class CharacterCreationPanelView {
         Label nameLabel = new Label("Név:");
         nameField = new TextField();
         nameField.setPromptText("Karakter neve");
+        setupTextField(nameField);
         formGrid.add(nameLabel, 0, row);
         formGrid.add(nameField, 1, row++);
 
@@ -102,6 +176,7 @@ public class CharacterCreationPanelView {
         Label raceLabel = new Label("Faj:");
         raceComboBox = new ComboBox<>();
         raceComboBox.setPromptText("...");
+        setupComboBox(raceComboBox);
         formGrid.add(raceLabel, 0, row);
         formGrid.add(raceComboBox, 1, row++);
 
@@ -109,6 +184,7 @@ public class CharacterCreationPanelView {
         Label classLabel = new Label("Kaszt:");
         classComboBox = new ComboBox<>();
         classComboBox.setPromptText("...");
+        setupComboBox(classComboBox);
         formGrid.add(classLabel, 0, row);
         formGrid.add(classComboBox, 1, row++);
 
@@ -116,6 +192,7 @@ public class CharacterCreationPanelView {
         Label subclassLabel = new Label("Alkaszt:");
         subclassComboBox = new ComboBox<>();
         subclassComboBox.setPromptText("...");
+        setupComboBox(subclassComboBox);
         formGrid.add(subclassLabel, 0, row);
         formGrid.add(subclassComboBox, 1, row++);
 
@@ -123,6 +200,7 @@ public class CharacterCreationPanelView {
         Label ageLabel = new Label("Életkor:");
         ageField = new TextField();
         ageField.setPromptText("Életkor (opcionális)");
+        setupTextField(ageField);
         formGrid.add(ageLabel, 0, row);
         formGrid.add(ageField, 1, row++);
 
@@ -130,6 +208,7 @@ public class CharacterCreationPanelView {
         Label alignmentLabel = new Label("Jellem:");
         alignmentComboBox = new ComboBox<>();
         alignmentComboBox.setPromptText("...");
+        setupComboBox(alignmentComboBox);
         formGrid.add(alignmentLabel, 0, row);
         formGrid.add(alignmentComboBox, 1, row++);
 
@@ -139,6 +218,14 @@ public class CharacterCreationPanelView {
         List<String> groupedReligions = createGroupedReligions();
         religionComboBox = new GroupedComboBox(groupedReligions);
         religionComboBox.setPromptText("...");
+        religionComboBox.setPrefWidth(Double.MAX_VALUE); // A GroupedComboBox esetén külön kell beállítani
+        religionComboBox.setMaxWidth(Double.MAX_VALUE);
+        religionComboBox.setMinWidth(100); // Minimális szélesség
+        religionComboBox.setStyle(BasePanelController.FIELD_ALIGNMENT_STYLE); // Balra igazítás
+
+        // GridPane mezők számára fontos beállítás
+        GridPane.setFillWidth(religionComboBox, true);
+        GridPane.setHgrow(religionComboBox, Priority.ALWAYS);
         formGrid.add(religionLabel, 0, row);
         formGrid.add(religionComboBox, 1, row++);
 
@@ -146,6 +233,7 @@ public class CharacterCreationPanelView {
         Label homelandLabel = new Label("Szülőföld:");
         homelandField = new TextField();
         homelandField.setPromptText("Karakter szülőföldje");
+        setupTextField(homelandField);
         formGrid.add(homelandLabel, 0, row);
         formGrid.add(homelandField, 1, row++);
 
@@ -153,24 +241,46 @@ public class CharacterCreationPanelView {
         Label schoolLabel = new Label("Iskola:");
         schoolField = new TextField();
         schoolField.setPromptText("Karakter iskolája");
+        setupTextField(schoolField);
         formGrid.add(schoolLabel, 0, row);
         formGrid.add(schoolField, 1, row++);
 
         // Szint és Mentés gomb (egy sorban)
         Label levelLabel = new Label("Szint:");
         levelAdjuster = new NumberAdjuster(1, 20, 1);
+        levelAdjuster.setPrefWidth(80); // Fix szélesség a NumberAdjuster-nek
+        // Töltse ki a maximális rendelkezésre álló helyet
+
+        // Mentés gomb - kitölti a rendelkezésre álló helyet
         saveButton = new Button("Mentés");
         saveButton.setStyle("-fx-font-weight: bold;");
+
+        saveButton.setPrefWidth(95); // Maximális szélesség a gombnak
+        saveButton.setMaxWidth(Double.MAX_VALUE);
+        saveButton.setMinWidth(60); // Minimális szélesség
+        saveButton.setAlignment(Pos.CENTER);
         saveButton.setOnAction(e -> saveCharacter());
 
-        HBox levelAndSaveBox = new HBox(10);
+        // HBox a szintállító és mentés gombnak
+        HBox levelAndSaveBox = new HBox(BasePanelController.SPACING);
         levelAndSaveBox.setAlignment(Pos.CENTER_LEFT);
+        levelAndSaveBox.setFillHeight(true);
+        levelAndSaveBox.setMinWidth(Double.MAX_VALUE);
+
+        // Elemek hozzáadása és növekedés beállítása
         levelAndSaveBox.getChildren().add(levelAdjuster);
-        HBox.setHgrow(levelAdjuster, Priority.ALWAYS);
         levelAndSaveBox.getChildren().add(saveButton);
+
+        // Beállítjuk hogy a saveButton növekedjen és kitöltse a maradék helyet
+        HBox.setHgrow(levelAdjuster, Priority.NEVER); // Ne növekedjen
+        HBox.setHgrow(saveButton, Priority.ALWAYS);   // Maximálisan növekedjen
 
         formGrid.add(levelLabel, 0, row);
         formGrid.add(levelAndSaveBox, 1, row++);
+
+        // GridPane mezők számára fontos beállítás
+        GridPane.setFillWidth(levelAndSaveBox, true);
+        GridPane.setHgrow(levelAndSaveBox, Priority.ALWAYS);
 
         // Adatok betöltése
         loadComboBoxData();
@@ -334,16 +444,21 @@ public class CharacterCreationPanelView {
     /**
      * Kaszt opciók frissítése a kiválasztott faj alapján.
      * Ha a korábban kiválasztott kaszt elérhető az új fajnál, akkor megtartja azt.
+     * A tényleges üzleti logika a controllerben található, itt csak a UI komponenseket frissítjük.
      */
     private void updateClassOptions() {
         String selectedRace = raceComboBox.getValue();
+        String currentClass = classComboBox.getValue();
 
-        // Ha nincs faj kiválasztva, a kaszt ComboBox inaktív
-        if (selectedRace == null || selectedRace.isEmpty() || PROMPT_VALUE.equals(selectedRace)) {
-            // Prompt értéket adjunk a ComboBox-nak null helyett
-            List<String> promptList = new ArrayList<>();
-            promptList.add(PROMPT_VALUE);
+        // Egységes prompt lista létrehozása
+        List<String> promptList = new ArrayList<>();
+        promptList.add(PROMPT_VALUE);
 
+        // Controller üzleti logika hívása - ellenőrzi, hogy megtarthatjuk-e a jelenlegi kasztot
+        boolean shouldEnableClass = controller.updateClassOptionsForRace(selectedRace, currentClass);
+
+        if (!shouldEnableClass) {
+            // Ha nem lehet engedélyezni, visszaállítjuk alapértelmezett állapotba
             classComboBox.setPromptText("");  // Kikapcsoljuk a promptText-et
             classComboBox.setItems(FXCollections.observableArrayList(promptList));
             classComboBox.setValue(PROMPT_VALUE);
@@ -358,11 +473,8 @@ public class CharacterCreationPanelView {
             return;
         }
 
-        // Ha van faj kiválasztva, a kaszt ComboBox aktív
+        // Ha van érvényes faj kiválasztva, a kaszt ComboBox aktív
         classComboBox.setDisable(false);
-
-        // Mentsük el a jelenlegi kaszt kiválasztást
-        String currentClass = classComboBox.getValue();
 
         // A fajhoz elérhető kasztok lekérése a controller-től
         List<String> classes = controller.getClassesForRace(selectedRace);
@@ -389,6 +501,7 @@ public class CharacterCreationPanelView {
             System.out.println("Kaszt prompt értékre állítva");
         }
 
+        // Alkasztok frissítése a kiválasztott kaszt alapján
         updateSubclassOptions();
     }
 
@@ -405,16 +518,21 @@ public class CharacterCreationPanelView {
     /**
      * Alkaszt opciók frissítése a kiválasztott kaszt alapján.
      * Ha a korábban kiválasztott alkaszt elérhető az új kasztnál, akkor megtartja azt.
+     * A tényleges üzleti logika a controllerben található, itt csak a UI komponenseket frissítjük.
      */
     private void updateSubclassOptions() {
         String selectedClass = classComboBox.getValue();
+        String currentSubclass = subclassComboBox.getValue();
 
-        // Ha nincs kaszt kiválasztva, vagy prompt érték, az alkaszt ComboBox inaktív
-        if (selectedClass == null || selectedClass.isEmpty() || PROMPT_VALUE.equals(selectedClass)) {
-            // Prompt értéket adjunk a ComboBox-nak null helyett
-            List<String> promptList = new ArrayList<>();
-            promptList.add(PROMPT_VALUE);
+        // Egységes prompt lista létrehozása
+        List<String> promptList = new ArrayList<>();
+        promptList.add(PROMPT_VALUE);
 
+        // Controller üzleti logika hívása - ellenőrzi, hogy megtarthatjuk-e a jelenlegi alkasztot
+        boolean shouldEnableSubclass = controller.updateSubclassOptionsForClass(selectedClass, currentSubclass);
+
+        if (!shouldEnableSubclass) {
+            // Ha nem lehet engedélyezni, visszaállítjuk alapértelmezett állapotba
             subclassComboBox.setPromptText("");  // Kikapcsoljuk a promptText-et
             subclassComboBox.setItems(FXCollections.observableArrayList(promptList));
             subclassComboBox.setValue(PROMPT_VALUE);
@@ -422,19 +540,13 @@ public class CharacterCreationPanelView {
             return;
         }
 
-        // Ha van kaszt kiválasztva, az alkaszt ComboBox aktív
+        // Ha van érvényes kaszt kiválasztva, az alkaszt ComboBox aktív
         subclassComboBox.setDisable(false);
-
-        // Mentsük el a jelenlegi alkaszt kiválasztást
-        String currentSubclass = subclassComboBox.getValue();
 
         // A kaszthoz elérhető alkasztok lekérése a controller-től
         List<String> subclasses = controller.getSubclasses(selectedClass);
 
-        // Hozzáadjuk a "-" opciót, ha erre szükség van
-        if (!subclasses.contains("-")) {
-            subclasses.add(0, "-");
-        }
+        // Hozzáadjuk a "-" opciót, ha erre szükség van - Ez a controller.getSubclasses() már tartalmazza
 
         // Hozzáadjuk a promptot az első elemnek
         List<String> subclassesWithPrompt = new ArrayList<>();

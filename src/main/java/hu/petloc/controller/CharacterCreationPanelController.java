@@ -7,6 +7,7 @@ import hu.petloc.view.CharacterCreationPanelView;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,11 +19,10 @@ import java.util.stream.Collectors;
  * Karakter létrehozó panel vezérlője.
  * Ez az osztály felelős a karakter létrehozásának vezérléséért és az adatok kezeléséért.
  */
-public class CharacterCreationPanelController {
+public class CharacterCreationPanelController extends BasePanelController {
 
     private final CharacterCreationPanelView view;
     private final MainCharacterSheetAppController mainController;
-    private GameCharacter tempCharacter;
     private ObjectProperty<EventHandler<GameCharacterEvent>> onCharacterCreated = new SimpleObjectProperty<>();
 
     /**
@@ -32,8 +32,27 @@ public class CharacterCreationPanelController {
      */
     public CharacterCreationPanelController(MainCharacterSheetAppController mainController) {
         this.mainController = mainController;
-        this.tempCharacter = new GameCharacter();
+        this.character = new GameCharacter(); // Az ideiglenes karakter a BasePanelController-ben lévő karakter
         this.view = new CharacterCreationPanelView(this);
+        setupStandardSize(); // Beállítjuk a standard méretet
+    }
+
+    /**
+     * A panel gyökér elemének lekérése.
+     *
+     * @return A gyökér elem
+     */
+    @Override
+    public Parent getRoot() {
+        return view.getRoot();
+    }
+
+    /**
+     * Frissíti a felhasználói felületet a karakter adatai alapján.
+     */
+    @Override
+    protected void updateUI() {
+        // Csak akkor frissítjük, ha van konkrét feladat a karakter adatainak frissítésére
     }
 
     /**
@@ -51,7 +70,7 @@ public class CharacterCreationPanelController {
      * @return Az ideiglenes karakter
      */
     public GameCharacter getTempCharacter() {
-        return tempCharacter;
+        return character; // A BasePanelController-ben tárolt karakter
     }
 
     /**
@@ -60,7 +79,7 @@ public class CharacterCreationPanelController {
      * @param character Az új karakter
      */
     public void setTempCharacter(GameCharacter character) {
-        this.tempCharacter = character;
+        this.character = character;
     }
 
     /**
@@ -70,7 +89,7 @@ public class CharacterCreationPanelController {
      */
     public GameCharacter createCharacter() {
         // Itt hozzuk létre az új karaktert
-        GameCharacter newCharacter = tempCharacter;
+        GameCharacter newCharacter = character;
 
         // Esemény kiváltása a karakter létrehozásáról
         if (onCharacterCreated.get() != null) {
@@ -160,6 +179,78 @@ public class CharacterCreationPanelController {
         subclasses.addAll(StaticData.getInstance().getSubclasses(className));
 
         return subclasses;
+    }
+
+    /**
+     * A prompt érték a ComboBox-ok számára.
+     * Ez segíti a felhasználói felületen megjelenő alapértelmezett érték konzisztens kezelését.
+     */
+    public static final String PROMPT_VALUE = "...";
+
+    /**
+     * Ellenőrzi, hogy az érték a prompt érték-e.
+     *
+     * @param value Ellenőrizendő érték
+     * @return Igaz, ha a prompt érték, egyébként hamis
+     */
+    public boolean isPromptValue(String value) {
+        return value == null || value.isEmpty() || PROMPT_VALUE.equals(value);
+    }
+
+    /**
+     * Osztály opciók frissítése a karakternél a kiválasztott faj alapján.
+     * Az üzleti logikát tartalmazza, ami meghatározza, mely kasztok maradhatnak
+     * aktívak a fajváltás után.
+     *
+     * @param selectedRace Kiválasztott faj
+     * @param currentClass Jelenleg kiválasztott kaszt
+     * @return Logikai érték, hogy a kaszt megváltoztatható-e
+     */
+    public boolean updateClassOptionsForRace(String selectedRace, String currentClass) {
+        // Ha nincs faj kiválasztva vagy prompt érték, akkor inaktív
+        if (isPromptValue(selectedRace)) {
+            return false;
+        }
+
+        // Elérhető kasztok lekérése a kiválasztott fajhoz
+        List<String> availableClasses = getClassesForRace(selectedRace);
+
+        // Ellenőrizzük, hogy a jelenlegi kaszt szerepel-e az új listában
+        if (currentClass != null && !PROMPT_VALUE.equals(currentClass) && availableClasses.contains(currentClass)) {
+            // Megtartjuk a korábbi kasztot
+            return true;
+        }
+
+        // Más esetben alaphelyzetbe állítjuk a kaszt választást
+        return false;
+    }
+
+    /**
+     * Alkaszt opciók frissítése a karakternél a kiválasztott kaszt alapján.
+     * Az üzleti logikát tartalmazza, ami meghatározza, mely alkasztok maradhatnak
+     * aktívak a kasztváltás után.
+     *
+     * @param selectedClass Kiválasztott kaszt
+     * @param currentSubclass Jelenleg kiválasztott alkaszt
+     * @return Logikai érték, hogy az alkaszt megváltoztatható-e
+     */
+    public boolean updateSubclassOptionsForClass(String selectedClass, String currentSubclass) {
+        // Ha nincs kaszt kiválasztva vagy prompt érték, akkor inaktív
+        if (isPromptValue(selectedClass)) {
+            return false;
+        }
+
+        // Elérhető alkasztok lekérése a kiválasztott kaszthoz
+        List<String> availableSubclasses = getSubclasses(selectedClass);
+
+        // Ellenőrizzük, hogy a jelenlegi alkaszt szerepel-e az új listában
+        if (currentSubclass != null && !PROMPT_VALUE.equals(currentSubclass) && availableSubclasses.contains(currentSubclass)) {
+            // Megtartjuk a korábbi alkasztot
+            return true;
+        }
+
+        // Más esetben alaphelyzetbe állítjuk az alkaszt választást
+        return false;
     }
 
     /**

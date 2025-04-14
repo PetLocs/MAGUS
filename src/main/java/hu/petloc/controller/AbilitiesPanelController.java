@@ -8,16 +8,16 @@ import javafx.scene.Parent;
  * Képességek panel vezérlője.
  * Ez az osztály felelős a karakter képességeinek kezeléséért.
  */
-public class AbilitiesPanelController implements BasePanelController {
+public class AbilitiesPanelController extends BasePanelController {
 
     private final AbilitiesPanelView view;
-    private GameCharacter character;
 
     /**
      * Konstruktor a képességek panel vezérlőjéhez.
      */
     public AbilitiesPanelController() {
         this.view = new AbilitiesPanelView(this);
+        setupStandardSize(); // Beállítjuk a standard méretet
     }
 
     /**
@@ -40,14 +40,10 @@ public class AbilitiesPanelController implements BasePanelController {
     }
 
     /**
-     * Karakter beállítása a panelhez.
-     *
-     * @param character A beállítandó karakter
+     * Frissíti a felhasználói felületet a karakter adatai alapján.
      */
     @Override
-    public void setCharacter(GameCharacter character) {
-        this.character = character;
-
+    protected void updateUI() {
         if (character != null) {
             updateViewFromCharacter();
         }

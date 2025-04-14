@@ -1,5 +1,6 @@
 package hu.petloc.ui;
 
+import hu.petloc.controller.BasePanelController;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Pos;
@@ -59,21 +60,33 @@ public abstract class Adjuster extends HBox {
         setSpacing(5);
         setAlignment(Pos.CENTER);
 
-        // Csökkentő gomb
+        // Csökkentő gomb - négyzetes forma
         decreaseButton = new Button("-");
         decreaseButton.setOnAction(e -> decreaseValue());
-        decreaseButton.setMinWidth(30);
+        // Négyzetes gomb beállítása - 25x25 méretű
+        int buttonSize = 25;
+        int labelWidth = 30;
+        decreaseButton.setMinSize(buttonSize, buttonSize);
+        decreaseButton.setPrefSize(buttonSize, buttonSize);
+        decreaseButton.setMaxSize(buttonSize, buttonSize);
+        decreaseButton.setStyle("-fx-font-weight: bold;");
 
-        // Érték címke
+        // Érték címke - BasePanelController.LABEL_WIDTH méretben
         valueLabel = new Label();
         valueLabel.setAlignment(Pos.CENTER);
-        valueLabel.setMinWidth(50);
-        HBox.setHgrow(valueLabel, Priority.ALWAYS);
+        valueLabel.setMinWidth(labelWidth);
+        valueLabel.setPrefWidth(labelWidth);
+        valueLabel.setMaxWidth(labelWidth);
+        HBox.setHgrow(valueLabel, Priority.NEVER); // Ne növekedjen
 
-        // Növelő gomb
+        // Növelő gomb - négyzetes forma
         increaseButton = new Button("+");
         increaseButton.setOnAction(e -> increaseValue());
-        increaseButton.setMinWidth(30);
+        // Négyzetes gomb beállítása - 25x25 méretű
+        increaseButton.setMinSize(buttonSize, buttonSize);
+        increaseButton.setPrefSize(buttonSize, buttonSize);
+        increaseButton.setMaxSize(buttonSize, buttonSize);
+        increaseButton.setStyle("-fx-font-weight: bold;");
 
         // Elemek hozzáadása
         getChildren().addAll(decreaseButton, valueLabel, increaseButton);

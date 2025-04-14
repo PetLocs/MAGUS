@@ -1,11 +1,14 @@
 package hu.petloc.view;
 
 import hu.petloc.controller.AbilitiesPanelController;
+import hu.petloc.controller.BasePanelController;
 import hu.petloc.ui.NumberAdjuster;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 /**
@@ -44,18 +47,39 @@ public class AbilitiesPanelView {
      */
     private void createUI() {
         // Konténer a teljes tartalomnak
-        root = new VBox(10);
-        root.setPadding(new Insets(10));
+        root = new VBox(BasePanelController.SPACING);
+        root.setPadding(new Insets(BasePanelController.PANEL_PADDING));
 
-        // Főcím
+        // Beállítjuk a standard méreteket
+        root.setPrefSize(BasePanelController.PANEL_WIDTH, BasePanelController.PANEL_HEIGHT);
+        root.setMinSize(BasePanelController.PANEL_WIDTH, BasePanelController.PANEL_HEIGHT);
+        root.setMaxSize(BasePanelController.PANEL_WIDTH, BasePanelController.PANEL_HEIGHT);
+
+        // Egységes szegély beállítása
+        root.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-border-radius: 3px;");
+
+        // Főcím - balra igazítva
         Label titleLabel = new Label("Tulajdonságok");
-        titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+        titleLabel.setStyle(BasePanelController.TITLE_STYLE);
+        titleLabel.setAlignment(Pos.CENTER_LEFT);
+        titleLabel.setMaxWidth(Double.MAX_VALUE); // Teljes szélességet kitölti
 
         // Tulajdonságok rács
         GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(BasePanelController.SPACING * 2);
+        grid.setVgap(BasePanelController.SPACING);
+        grid.setAlignment(Pos.TOP_LEFT);
+
+        // Oszlop kényszerek beállítása - egységes címke szélesség
+        ColumnConstraints col1 = new ColumnConstraints();
+        col1.setPrefWidth(80);
+        col1.setMinWidth(80);
+
+        ColumnConstraints col2 = new ColumnConstraints();
+        col2.setHgrow(Priority.ALWAYS);
+        col2.setFillWidth(true);
+
+        grid.getColumnConstraints().addAll(col1, col2);
 
         int row = 0;
 
@@ -153,7 +177,11 @@ public class AbilitiesPanelView {
      */
     private NumberAdjuster createAdjuster(int min, int max, int initial) {
         NumberAdjuster adjuster = new NumberAdjuster(min, max, initial);
-        adjuster.setPrefWidth(150);
+        // Számítás a panel szélessége alapján:
+        // panel szélesség - (2 * padding) - címke szélességét (110px) - hézag (2 * spacing)
+        int adjusterWidth = BasePanelController.PANEL_WIDTH - (2 * BasePanelController.PANEL_PADDING) - 110 - (2 * BasePanelController.SPACING);
+        adjuster.setPrefWidth(adjusterWidth);
+        adjuster.setMaxWidth(Double.MAX_VALUE); // Kitölti a rendelkezésre álló helyet
         return adjuster;
     }
 

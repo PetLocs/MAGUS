@@ -1,9 +1,11 @@
 package hu.petloc.view;
 
+import hu.petloc.controller.BasePanelController;
 import hu.petloc.controller.BasicInfoPanelController;
 import hu.petloc.model.GameCharacter;
 import hu.petloc.ui.GroupedComboBox;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -42,17 +44,28 @@ public class BasicInfoPanelView {
      */
     private void createUI() {
         // Konténer a teljes tartalomnak
-        root = new VBox(10);
-        root.setPadding(new Insets(10));
+        root = new VBox(BasePanelController.SPACING);
+        root.setPadding(new Insets(BasePanelController.PANEL_PADDING));
 
-        // Főcím
+        // Beállítjuk a standard méreteket
+        root.setPrefSize(BasePanelController.PANEL_WIDTH, BasePanelController.PANEL_HEIGHT);
+        root.setMinSize(BasePanelController.PANEL_WIDTH, BasePanelController.PANEL_HEIGHT);
+        root.setMaxSize(BasePanelController.PANEL_WIDTH, BasePanelController.PANEL_HEIGHT);
+
+        // Egységes szegély beállítása
+        root.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-border-radius: 3px;");
+
+        // Főcím - balra igazítva
         Label titleLabel = new Label("Alapvető karakter adatok");
-        titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+        titleLabel.setStyle(BasePanelController.TITLE_STYLE);
+        titleLabel.setAlignment(Pos.CENTER_LEFT);
+        titleLabel.setMaxWidth(Double.MAX_VALUE); // Teljes szélességet kitölti
 
         // GridPane a mezőkhöz
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
+        gridPane.setHgap(BasePanelController.SPACING * 2);
+        gridPane.setVgap(BasePanelController.SPACING);
+        gridPane.setAlignment(Pos.TOP_LEFT);
 
         // Oszlop kényszerek beállítása
         ColumnConstraints col1 = new ColumnConstraints();
@@ -71,15 +84,16 @@ public class BasicInfoPanelView {
 
         // 1. Név mező
         Label nameLabel = new Label("Név:");
-        nameLabel.setPrefWidth(100);
+        nameLabel.setPrefWidth(110); // Egységes címke szélesség
         nameField = new TextField();
+        nameField.setMaxWidth(Double.MAX_VALUE); // Kitölti a rendelkezésre álló helyet
         nameField.textProperty().addListener((obs, oldVal, newVal) -> controller.setName(newVal));
         gridPane.add(nameLabel, 0, row);
         gridPane.add(nameField, 1, row++);
 
         // 2. Faj választó
         Label raceLabel = new Label("Faj:");
-        raceLabel.setPrefWidth(100);
+        raceLabel.setPrefWidth(110); // Egységes címke szélesség
         raceComboBox = new ComboBox<>();
         raceComboBox.getItems().addAll(controller.getRaces());
         raceComboBox.setMaxWidth(Double.MAX_VALUE);
@@ -93,7 +107,7 @@ public class BasicInfoPanelView {
 
         // 3. Kaszt választó
         Label classLabel = new Label("Kaszt:");
-        classLabel.setPrefWidth(100);
+        classLabel.setPrefWidth(110); // Egységes címke szélesség
         classComboBox = new ComboBox<>();
         classComboBox.setMaxWidth(Double.MAX_VALUE);
         classComboBox.setPromptText("...");
@@ -107,7 +121,7 @@ public class BasicInfoPanelView {
 
         // 4. Alkaszt választó
         Label subclassLabel = new Label("Alkaszt:");
-        subclassLabel.setPrefWidth(100);
+        subclassLabel.setPrefWidth(110); // Egységes címke szélesség
         subclassComboBox = new ComboBox<>();
         subclassComboBox.setMaxWidth(Double.MAX_VALUE);
         subclassComboBox.setPromptText("...");
