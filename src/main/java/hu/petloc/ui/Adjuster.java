@@ -1,63 +1,155 @@
 package hu.petloc.ui;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
-public class Adjuster extends HBox {
-    protected final int min;
-    protected final int max;
-    protected int value;
+/**
+ * Absztrakt érték beállító.
+ * Ez az osztály egy alap érték beállító komponens, amit a konkrét leszármazott osztályok
+ * implementálhatnak különböző típusú értékekhez.
+ */
+public abstract class Adjuster extends HBox {
 
-    protected final Label label;
-    protected final Button minus;
-    protected final Button plus;
+    protected IntegerProperty value = new SimpleIntegerProperty(0);
+    protected int minValue;
+    protected int maxValue;
 
-    public Adjuster(int min, int max, int initialValue) {
-        this.min = min;
-        this.max = max;
-        this.value = clamp(initialValue);
+    protected Button decreaseButton;
+    protected Label valueLabel;
+    protected Button increaseButton;
 
-        label = new Label(String.valueOf(value));
-        label.setMinWidth(40); // 5 digit fix
-        label.setPrefWidth(40);
-        label.setAlignment(Pos.CENTER);
+    /**
+     * Konstruktor a beállítóhoz.
+     *
+     * @param minValue A minimális érték
+     * @param maxValue A maximális érték
+     * @param initialValue A kezdeti érték
+     */
+    public Adjuster(int minValue, int maxValue, int initialValue) {
+        this.minValue = minValue;
+        this.maxValue = maxValue;
 
-        minus = new Button("-");
-        plus = new Button("+");
+        // Kontroll értékének beállítása a megengedett határok között
+        int validInitial = Math.max(minValue, Math.min(maxValue, initialValue));
+        value.set(validInitial);
 
+        // Alap UI elemek
+        createUI();
+
+        // Értékváltozás eseménykezelő
+        value.addListener((obs, oldVal, newVal) -> {
+            updateValueLabel();
+            handleValueChange(oldVal.intValue(), newVal.intValue());
+        });
+
+        // Kezdeti állapot beállítása
+        updateValueLabel();
+        updateButtonStates();
+    }
+
+    /**
+     * UI elemek létrehozása.
+     */
+    protected void createUI() {
         setSpacing(5);
-        setAlignment(Pos.CENTER_LEFT);
-        styleButton(minus);
-        styleButton(plus);
+        setAlignment(Pos.CENTER);
 
-        minus.setOnAction(e -> setValue(value - getStep()));
-        plus.setOnAction(e -> setValue(value + getStep()));
+        // Csökkentő gomb
+        decreaseButton = new Button("-");
+        decreaseButton.setOnAction(e -> decreaseValue());
+        decreaseButton.setMinWidth(30);
 
-        getChildren().addAll(minus, label, plus);
+        // Érték címke
+        valueLabel = new Label();
+        valueLabel.setAlignment(Pos.CENTER);
+        valueLabel.setMinWidth(50);
+        HBox.setHgrow(valueLabel, Priority.ALWAYS);
+
+        // Növelő gomb
+        increaseButton = new Button("+");
+        increaseButton.setOnAction(e -> increaseValue());
+        increaseButton.setMinWidth(30);
+
+        // Elemek hozzáadása
+        getChildren().addAll(decreaseButton, valueLabel, increaseButton);
     }
 
-    protected int clamp(int val) {
-        return Math.max(min, Math.min(max, val));
+    /**
+     * Érték csökkentése.
+     */
+    public void decreaseValue() {
+        int currentValue = value.get();
+        if (currentValue > minValue) {
+            value.set(currentValue - 1);
+            updateButtonStates();
+        }
     }
 
-    protected int getStep() {
-        return 1;
+    /**
+     * Érték növelése.
+     */
+    public void increaseValue() {
+        int currentValue = value.get();
+        if (currentValue < maxValue) {
+            value.set(currentValue + 1);
+            updateButtonStates();
+        }
     }
 
+    /**
+     * Értékcímke frissítése.
+     */
+    protected abstract void updateValueLabel();
+
+    /**
+     * Eseménykezelő az érték változásakor.
+     *
+     * @param oldValue A régi érték
+     * @param newValue Az új érték
+     */
+    protected abstract void handleValueChange(int oldValue, int newValue);
+
+    /**
+     * Gombok állapotának frissítése az aktuális érték alapján.
+     */
+    protected void updateButtonStates() {
+        int currentValue = value.get();
+        decreaseButton.setDisable(currentValue <= minValue);
+        increaseButton.setDisable(currentValue >= maxValue);
+    }
+
+    /**
+     * Az aktuális érték lekérése.
+     *
+     * @return Az aktuális érték
+     */
     public int getValue() {
-        return value;
+        return value.get();
     }
 
+    /**
+     * Az érték beállítása.
+     *
+     * @param newValue Az új érték
+     */
     public void setValue(int newValue) {
-        value = clamp(newValue);
-        label.setText(String.valueOf(value));
+        if (newValue >= minValue && newValue <= maxValue) {
+            value.set(newValue);
+            updateButtonStates();
+        }
     }
 
-    private void styleButton(Button button) {
-        button.setPrefWidth(30);
-        button.setPrefHeight(24);
-        button.setStyle("-fx-font-weight: bold; -fx-alignment: center;");
+    /**
+     * Az érték tulajdonság lekérése.
+     *
+     * @return Az érték tulajdonság
+     */
+    public IntegerProperty valueProperty() {
+        return value;
     }
 }

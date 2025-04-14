@@ -1,4 +1,4 @@
-package hu.petloc.model.data;
+package hu.petloc.data;
 
 /**
  * Az adattípusok enumerációja.
@@ -12,7 +12,11 @@ public enum DataType {
     ALIGNMENT("alignment", "Jellemek"),
     RELIGION("religion", "Vallások"),
     ABILITY("ability", "Képességek"),
-    SKILL("skill", "Képzettségek");
+    SKILL("skill", "Képzettségek"),
+    WEAPON("weapon", "Fegyverek"),
+    ARMOR("armor", "Páncélok"),
+    MAGIC("magic", "Varázslatok"),
+    ITEM("item", "Tárgyak");
 
     private final String key;
     private final String displayName;
@@ -20,7 +24,7 @@ public enum DataType {
     /**
      * Konstruktor az adattípus enum értékeihez.
      *
-     * @param key Az adattípus kulcsa (azonosítója)
+     * @param key Az adattípus kulcsa (azonosítója, fájlnév)
      * @param displayName Az adattípus megjelenítési neve
      */
     DataType(String key, String displayName) {

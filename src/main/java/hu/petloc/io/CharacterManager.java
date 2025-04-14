@@ -1,93 +1,68 @@
 package hu.petloc.io;
 
-import hu.petloc.model.character.Character;
+import hu.petloc.model.GameCharacter;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
- * Karakter kezelő osztály, amely absztrahálja a tárolási megoldást.
- * Ez az osztály singleton mintát követ, így globálisan elérhető.
+ * Karakter menedzser osztály.
+ * Ez az osztály felelős a karakterek betöltéséért és mentéséért.
  */
 public class CharacterManager {
 
-    private static CharacterManager instance;
     private CharacterStorage storage;
-    private boolean encryptionEnabled = false;
 
     /**
-     * Privát konstruktor a singleton minta részeként.
+     * Konstruktor a karakter menedzserhez.
      */
-    private CharacterManager() {
-        // Alapértelmezetten titkosítás nélküli tárolás
-        this.storage = new JsonCharacterStorage();
+    public CharacterManager() {
+        storage = new EncryptedJsonCharacterStorage();
     }
 
     /**
-     * A CharacterManager egyetlen példányának lekérése.
+     * Karakter betöltése fájlból.
      *
-     * @return A CharacterManager singleton példánya
+     * @param filePath A fájl útvonala
+     * @return A betöltött karakter
+     * @throws Exception Ha hiba történik a betöltés során
      */
-    public static synchronized CharacterManager getInstance() {
-        if (instance == null) {
-            instance = new CharacterManager();
+    public GameCharacter loadCharacter(String filePath) throws Exception {
+        // Ellenőrizzük, hogy a fájl létezik-e
+        File file = new File(filePath);
+        if (!file.exists() || !file.isFile()) {
+            throw new Exception("A megadott fájl nem létezik: " + filePath);
         }
-        return instance;
+
+        try {
+            return storage.loadCharacter(filePath);
+        } catch (Exception e) {
+            throw new Exception("Hiba történt a karakter betöltése közben: " + e.getMessage());
+        }
     }
 
     /**
-     * Titkosítás bekapcsolása a megadott jelszóval.
-     *
-     * @param password A titkosítási jelszó
-     */
-    public void enableEncryption(String password) {
-        this.storage = new EncryptedJsonCharacterStorage(password);
-        this.encryptionEnabled = true;
-    }
-
-    /**
-     * Titkosítás kikapcsolása.
-     */
-    public void disableEncryption() {
-        this.storage = new JsonCharacterStorage();
-        this.encryptionEnabled = false;
-    }
-
-    /**
-     * Karakter mentése a megadott fájlnévvel.
+     * Karakter mentése fájlba.
      *
      * @param character A mentendő karakter
-     * @param filepath A fájl elérési útja
-     * @throws IOException Ha hiba történik a mentés során
+     * @param filePath A fájl útvonala
+     * @throws Exception Ha hiba történik a mentés során
      */
-    public void saveCharacter(Character character, String filepath) throws IOException {
-        // Ellenőrizzük, hogy a könyvtár létezik-e
-        File file = new File(filepath);
-        File directory = file.getParentFile();
-        if (directory != null && !directory.exists()) {
-            directory.mkdirs();
+    public void saveCharacter(GameCharacter character, String filePath) throws Exception {
+        if (character == null) {
+            throw new Exception("Nem lehet null karaktert menteni!");
         }
 
-        storage.saveCharacter(character, filepath);
-    }
+        try {
+            // Mappa létrehozása, ha szükséges
+            File file = new File(filePath);
+            File parentDir = file.getParentFile();
+            if (parentDir != null && !parentDir.exists()) {
+                parentDir.mkdirs();
+            }
 
-    /**
-     * Karakter betöltése a megadott fájlból.
-     *
-     * @param filepath A fájl elérési útja
-     * @return A betöltött karakter
-     * @throws IOException Ha hiba történik a betöltés során
-     */
-    public Character loadCharacter(String filepath) throws IOException {
-        return storage.loadCharacter(filepath);
-    }
-
-    /**
-     * Visszaadja, hogy a titkosítás be van-e kapcsolva.
-     *
-     * @return true ha a titkosítás be van kapcsolva, false egyébként
-     */
-    public boolean isEncryptionEnabled() {
-        return encryptionEnabled;
+            storage.saveCharacter(character, filePath);
+        } catch (Exception e) {
+            throw new Exception("Hiba történt a karakter mentése közben: " + e.getMessage());
+        }
     }
 }

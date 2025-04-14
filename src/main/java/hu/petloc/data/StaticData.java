@@ -1,10 +1,9 @@
-package hu.petloc.model.data;
+package hu.petloc.data;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -12,11 +11,7 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.Objects;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 /**
@@ -52,7 +47,7 @@ public class StaticData {
     }
 
     /**
-     * Vissszaadja a fajok listáját.
+     * Visszaadja a fajok listáját.
      *
      * @return A fajok listája
      */
